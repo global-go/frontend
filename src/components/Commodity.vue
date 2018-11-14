@@ -46,7 +46,7 @@ export default {
   width: 300px;
   height: 100px;
   color:black;
-  
+   overflow: hidden;
   /* line-height: 10%; */
 }
 
@@ -56,10 +56,13 @@ export default {
   transition-duration:0.8s;
 }
 .yellow-line {
-  background-color: rgba(255, 195, 0, 1);
+  background: rgba(255, 195, 0, 1);
   height: 2px;
   width: 200px;
+  padding: 0;
   margin-top: 10px;
+
+  /* padding-top: 10px; */
   /* z-index: 2; */
   
 }

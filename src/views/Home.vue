@@ -2,8 +2,8 @@
   <div class="home">
     <div class="left-wrapper" >
       <img class="logo" src="../assets/logo.png">
-      <div class="login">登陆</div>
-      <div class="register">注册</div>
+      <div class="login" @click="goToLogin()">登陆</div>
+      <div class="register" @click="goToRegister()">注册</div>
     </div>
     <div class="medium-wrapper">
       <div class="sort">
@@ -17,10 +17,7 @@
         <div class="small-block">一级选项</div>
         <div class="small-block">二级选项</div>
         <div class="small-block">三级选项</div>
-
-
       </div>
-
     </div>
     <div class="right-wrapper">
       <div class="form">
@@ -53,7 +50,18 @@ export default {
   components: {
     commodity
   },
-  methods: {}
+  methods: {
+    goToLogin() {
+      this.$router.push({
+        path: "/login"
+      });
+    },
+    goToRegister() {
+      this.$router.push({
+        path: "/cart"
+      });
+    }
+  }
 };
 </script>
 
@@ -67,14 +75,14 @@ export default {
 }
 
 .left-wrapper {
-  width: 350px;
+  width: 250px;
   height: 100vh;
   text-align: center;
   flex-shrink: 0;
 }
 
 .medium-wrapper {
-  width: 350px;
+  width: 250px;
   height: 100vh;
   background-color: rgba(229, 229, 229, 0.5);
   font-size: 18px;
@@ -85,12 +93,13 @@ export default {
 .right-wrapper {
   height: 100vh;
   flex-grow: 1;
-  overflow:auto;
+  overflow: auto;
 }
 
 .logo {
-  width: 80%;
-  height: 121px;
+  position: relative;
+  width: 75%;
+  height: 80px;
   text-align: center;
   margin-top: 50px;
 }
@@ -106,9 +115,16 @@ export default {
   font-size: 30px;
   text-align: center;
   font-weight: bold;
-  margin-top: 140px;
+  margin-top: 100px;
   line-height: 70px;
   overflow: hidden;
+}
+
+.login:hover {
+  background-color: black;
+  color: white;
+  transition-duration: 0.8s;
+  cursor: pointer;
 }
 
 .register {
@@ -125,6 +141,13 @@ export default {
   margin-top: 30px;
   line-height: 70px;
   overflow: hidden;
+}
+
+.register:hover {
+  background-color: black;
+  color: white;
+  transition-duration: 0.8s;
+  cursor: pointer;
 }
 
 .form {
@@ -187,19 +210,21 @@ input {
   padding-left: 30px;
 }
 
+.small-block:hover {
+  cursor: pointer;
+}
+
 .total-commodity {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  
 }
 
 .commodity {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   width: 33%;
-  
   flex-wrap: wrap;
 }
 
