@@ -1,0 +1,4 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" fill="rgba(255, 255, 255, 1)" viewBox="0 0 24 48" width="256" height="512">
+    <path transform-origin="0px 0px 0px" transform="scale(0.5, 1)" d="M 20 12 l -2.83 2.83 L 26.34 24 l -9.17 9.17 L 20 36 l 12 -12 Z" />
+    <path fill="none" d="M 0 0 h 48 v 48 H 0 Z" />
+</svg>

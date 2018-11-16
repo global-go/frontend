@@ -26,29 +26,32 @@
       </div>
 
       <div class="total-commodity">
-         <div class="commodity"  v-for="i in 9" :key="i"><commodity></commodity></div>
+         <div class="commodity"  v-for="i in 9" :key="i"  @click="goToDetail()"><commodity></commodity></div>
       </div>
 
      <div>
        <div class="page"></div>
      </div>
      
+     
     </div>
     
-    
-
+    <div class="detail">
+    <goods-detail v-if="showDetail==true"></goods-detail>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import commodity from "@/components/Commodity.vue";
+import GoodsDetail from "../components/GoodsDetail";
 // import detail from '@/components/DetailPanel.vue'
 
 export default {
   name: "home",
   components: {
-    commodity
+    commodity,GoodsDetail
   },
   methods: {
     goToLogin() {
@@ -60,7 +63,17 @@ export default {
       this.$router.push({
         path: "/cart"
       });
+    },
+    goToDetail(){
+      console.log(this.showDetail);
+      this.showDetail=true;
     }
+  },
+  data(){
+    return{
+      showDetail:false
+    }
+    
   }
 };
 </script>
@@ -233,5 +246,10 @@ input {
   height: 10px;
   border-radius: 4px;
 }
+
+.detail{
+  
+}
+
 </style>
  

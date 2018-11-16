@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Cart from './views/Cart.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
+import SubmitOrder from './views/SubmitOrder.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component:Register
+    },
+    {
+      path: '/submit-order',
+      name:'submit-order',
+      component:SubmitOrder
     }
 
   ]
