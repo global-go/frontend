@@ -1,5 +1,5 @@
 <template>
-    <div class="container" @click="goToCart()">
+    <div class="container">
       <div class="picture"></div>
       <div class="content">
          <div class="yellow-line"></div>
@@ -7,20 +7,16 @@
          <div class="price">RMB 180.00</div>
          <!--<img @ class="cart" src="../assets/shopping-cart.svg">-->
       </div>
-
+      
     </div>
+
 </template>
 
 <script>
+
 export default {
-  name: "commodity",
-  methods: {
-    goToCart() {
-      this.$router.push({
-        path: "/cart"
-      });
-    }
-  }
+  name: "commodity"
+
 }; 
 </script> 
 
