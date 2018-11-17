@@ -37,7 +37,7 @@
     </div>
     
     <div class="detail">
-    <CommodityDetailPanel v-if="showDetail==true"></CommodityDetailPanel>
+    <CommodityDetailPanel @close="close" v-if="showDetail==true"></CommodityDetailPanel>
     </div>
   </div>
 </template>
@@ -67,6 +67,9 @@ export default {
     goToDetail(){
       console.log(this.showDetail);
       this.showDetail=true;
+    },
+    close() {
+      this.showDetail = false
     }
   },
   data(){
