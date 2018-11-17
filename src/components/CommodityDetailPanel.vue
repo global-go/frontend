@@ -70,7 +70,7 @@
 
 <script>
 export default {
-  name: 'GoodsDetail',
+  name: 'CommodityDetail',
   props:['goods_id'],
   data(){
       return{
@@ -95,7 +95,7 @@ export default {
       buyItNow: function(){
           console.log("立即购买");
           this.$router.push({
-          path: "/submit-order"
+          path: "/perform-order"
             });
       },
       addToCart: function(){

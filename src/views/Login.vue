@@ -139,6 +139,14 @@ input{
 
 }
 
+.btn:hover{
+  background-color: black;
+  color: white;
+  transition-duration: 0.8s;
+  cursor: pointer;
+
+}
+
 .link{
   margin-top: 20px;
   font-size: 16px;

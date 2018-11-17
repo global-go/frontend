@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "ChangeNum",
+  name: "NumInput",
   methods: {
       handleReduce: function(){
           if(this.buy_number>0)

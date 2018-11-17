@@ -4,7 +4,11 @@ import Home from './views/Home.vue'
 import Cart from './views/Cart.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
-import SubmitOrder from './views/SubmitOrder.vue'
+import PerformOrder from './views/PerformOrder.vue'
+import AdminHome from './views/AdminHome.vue'
+import CommodityManagement from './views/CommodityManagement.vue'
+import MyOrder from './views/MyOrder.vue'
+import UserList from './views/Userlist.vue'
 
 Vue.use(Router)
 
@@ -31,10 +35,31 @@ export default new Router({
       component:Register
     },
     {
-      path: '/submit-order',
-      name:'submit-order',
-      component:SubmitOrder
-    }
+      path: '/performOrder',
+      name:'performOrder',
+      component:PerformOrder
+    },
+    {
+      path: '/AdminHome',
+      name:'AdminHome',
+      component:AdminHome
+    },
+    {
+      path: '/CommodityManagement',
+      name:'CommodityManagement',
+      component:CommodityManagement
+    },
+    {
+      path: '/MyOrder',
+      name:'MyOrder',
+      component:MyOrder
+    },
+    {
+      path: '/UserList',
+      name:'UserList',
+      component:UserList
+    },
+
 
   ]
 })

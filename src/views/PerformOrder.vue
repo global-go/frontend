@@ -38,7 +38,7 @@
             </div>
             <div class="box">
                 <h2 style="color:#505050;font-size:25px;margin-left:5%;">数量：</h2>
-                <change-num style="margin-top:25%;margin-left:-26%;"></change-num>
+                <NumInput style="margin-top:25%;margin-left:-26%;"></NumInput>
             </div>
             <div class="box">
                 <h2 style="color:#505050;font-size:25px;margin-left:5%;">总价：</h2>
@@ -59,10 +59,10 @@
 </template>
 
 <script>
-import ChangeNum from "../components/ChangeNum.vue"
+import NumInput from "../components/NumInput.vue"
 export default {
   name: "SubmitOrder",
-  components:{ChangeNum},
+  components:{NumInput},
   data(){
     return{
         ifcommit:false,

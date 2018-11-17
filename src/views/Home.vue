@@ -26,7 +26,7 @@
       </div>
 
       <div class="total-commodity">
-         <div class="commodity"  v-for="i in 9" :key="i"  @click="goToDetail()"><commodity></commodity></div>
+         <div class="commodity"  v-for="i in 9" :key="i"  @click="goToDetail()"><commodityItem></commodityItem></div>
       </div>
 
      <div>
@@ -37,21 +37,21 @@
     </div>
     
     <div class="detail">
-    <goods-detail v-if="showDetail==true"></goods-detail>
+    <CommodityDetailPanel v-if="showDetail==true"></CommodityDetailPanel>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import commodity from "@/components/Commodity.vue";
-import GoodsDetail from "../components/GoodsDetail";
+import commodityItem from "@/components/CommodityItem.vue";
+import CommodityDetailPanel from "../components/CommodityDetailPanel";
 // import detail from '@/components/DetailPanel.vue'
 
 export default {
   name: "home",
   components: {
-    commodity,GoodsDetail
+    commodityItem,CommodityDetailPanel
   },
   methods: {
     goToLogin() {

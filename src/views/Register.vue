@@ -149,6 +149,8 @@ input {
   margin-top: 30px;
 }
 
+
+
 .btn1 {
   
   height: 45px;
@@ -164,6 +166,14 @@ input {
   margin-right: auto; */
 }
 
+.btn1:hover{
+  background-color: black;
+  color: white;
+  transition-duration: 0.8s;
+  cursor: pointer;
+
+}
+
 .btn2 {
   height: 45px;
   width: 6vw;
@@ -176,6 +186,14 @@ input {
   margin-right: 50px;
   /* margin-left: auto;
   margin-right: auto; */
+}
+
+.btn2:hover{
+  background-color: black;
+  color: white;
+  transition-duration: 0.8s;
+  cursor: pointer;
+
 }
 
 .link {
