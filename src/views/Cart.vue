@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <div class="list" v-for="i in 3" :key="i">
+        <div class="list" v-for="i in 4" :key="i">
             <img class="com-photo" src="../assets/commodity.jpg">
             <div class="com-name">商品名称很长的话就会占两行这样子</div>
             <div class="com-price">单价：<br/>RMB 180.00</div>
@@ -67,6 +67,9 @@ export default {
 }
 
 .back:hover {
+  color: rgba(255, 195, 0, 1);
+  transition-duration: 0.5s;
+  text-decoration: underline;
   cursor: pointer;
 }
 

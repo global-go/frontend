@@ -96,11 +96,14 @@ export default {
     buyItNow: function() {
       console.log("立即购买");
       this.$router.push({
-        path: "/perform-order"
+        path: "/performOrder"
       });
     },
     addToCart: function() {
       console.log("加入购物车");
+       this.$router.push({
+        path: "/cart"
+      });
     },
     handleLeft: function() {
       console.log("left");
@@ -157,7 +160,7 @@ export default {
   overflow-y: auto;
   right: 0px;
   top: 0px;
-  width: 40vw;
+  width: 70vw;
   height: 100vh;
   background-color: white;
   animation: slideIn 0.5s ease 1 backwards;

@@ -15,7 +15,7 @@
         <input type="text" placeholder="请输入密码">
 
       </div>
-      <div class="btn">
+      <div class="btn" @click="goToHome()">
         登陆
       </div>
       <div class="link" @click="goToRegister()">没有账号？立即注册</div>
@@ -33,6 +33,11 @@
 export default {
   name: "",
   methods: {
+    goToHome(){
+      this.$router.push({
+        path: "/"
+      });
+    },
     goToRegister() {
       this.$router.push({
         path: "/register"

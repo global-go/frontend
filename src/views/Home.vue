@@ -2,8 +2,27 @@
   <div class="home">
     <div class="left-wrapper" >
       <img class="logo" src="../assets/logo.png">
-      <div class="login" @click="goToLogin()">登陆</div>
-      <div class="register" @click="goToRegister()">注册</div>
+      <div v-if="state">
+           <div class="login" @click="goToLogin()">登陆</div>
+           <div class="register" @click="goToRegister()">注册</div>
+      </div>
+      <div v-else>
+         <div class="grey-frame">
+          <div class="fir">
+            <div class="welcome">欢迎回来，用户A！</div>
+            <div  class="exit" @click="exit()">注销</div>
+          </div>
+            <div class="line1"></div>
+            <img class="pic" src="../assets/photo.png">
+            <div class="line2"></div>
+            <div class="txt">未完成的订单数：1笔</div>
+            <div class="txt">钱包余额：12.00</div>
+            <div class="btn" @click="goToMyOrder()">我的订单</div>
+            <div class="btn" @click="goToCart()">购物车</div>     
+        </div>
+     
+      </div>
+      
     </div>
     <div class="medium-wrapper">
       <div class="sort">
@@ -54,6 +73,9 @@ export default {
     commodityItem,CommodityDetailPanel
   },
   methods: {
+    exit(){
+      state:false
+    },
     goToLogin() {
       this.$router.push({
         path: "/login"
@@ -61,11 +83,20 @@ export default {
     },
     goToRegister() {
       this.$router.push({
+        path: "/register"
+      });
+    },
+    goToCart() {
+      this.$router.push({
         path: "/cart"
       });
     },
+    goToMyOrder() {
+      this.$router.push({
+        path: "/MyOrder"
+      });
+    },
     goToDetail(){
-      console.log(this.showDetail);
       this.showDetail=true;
     },
     close() {
@@ -73,6 +104,7 @@ export default {
     }
   },
   data(){
+    state:true;
     return{
       showDetail:false
     }
@@ -164,6 +196,82 @@ export default {
   color: white;
   transition-duration: 0.8s;
   cursor: pointer;
+}
+
+.grey-frame{
+  width: 200px;
+  height: 400px;
+  border-radius: 40px;
+  margin-left: 25px;
+  margin-top: 30px;
+  background-color: rgba(229, 229, 229, 0.5);
+  position: relative;
+  text-align: center;
+}
+
+.fir{
+  display: flex;
+}
+.welcome{
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-left: 15px;
+
+}
+
+.exit{
+  font-size: 10px;
+  color: rgba(255, 141, 0, 1);
+  text-decoration: underline;
+  margin-top: 23PX;
+}
+
+.line1{
+  margin-top: 6px;
+  width: 110px;
+  height: 2px;
+  background-color: rgba(255, 141, 0, 1);
+}
+
+.pic{
+  height: 130px;
+  width: 130px;
+  margin:15px 15px;
+}
+
+.line2{
+  width: 120px;
+  height: 2px;
+  float: right;
+  background-color: rgba(255, 141, 0, 1);
+}
+
+.txt{
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight:bold;
+
+}
+
+.btn{
+  height: 40px;
+  width: 150px;
+  margin: 15px auto 0 auto;
+  background-color: rgba(255, 195, 0, 1);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 40px;
+  text-align: center;
+}
+
+.btn:hover{
+  background-color: black;
+  color: white;
+  transition-duration: 0.8s;
+  cursor: pointer;
+
 }
 
 .form {
