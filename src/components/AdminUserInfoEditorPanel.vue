@@ -3,8 +3,8 @@
         <div class="mask" @click="close"></div>
         <div class="content">
             <div class="box1">
-                <img src="../assets/photo.png" style="height:200px;width:200px;margin-left:8%;margin-top:5%;"/>
-                <div class="text1">修改头像</div>
+                <img src="../assets/photo.png" style="height:200px;width:200px;margin-left:15%;margin-top:5%;"/>
+                
             </div>   
             <div class="box2">
                 <div class="text2">账号：001</div>
@@ -13,9 +13,15 @@
                   <input placeholder="请输入新密码..." style="width:200px;height:35px;margin-left:-2%;">
                 </div>
                 <div class="text2">账户余额：RMB 1000.00</div>
+                <div class="text2">修改余额：
+                  <input placeholder="输入余额..." style="width:200px;height:35px;margin-left:-2%;">
+                </div>
             </div>  
             <div class="box3">
-                <div class="confirm_modify">确认修改</div>
+                <div class="confirm_modify">
+                  <img style="width:25px;height:25px;" src="../assets/OK.svg"/>
+                  确认修改
+                </div>
             </div>
         </div>
       

@@ -32,20 +32,25 @@
             
             <div class="btn1">
               <div >等待卖家发货</div>
-              <div class="click-btn" >订单详情</div>
+              <div class="click-btn" @click="GoToOrderDetail">订单详情</div>
             </div> 
         </div>
- <UserInfoEditorPanel @close="close" v-if="editor==true"></UserInfoEditorPanel>
+ <user-info-editor-panel @close1="close1" v-if="showUserInfo==true"></user-info-editor-panel>
+ <order-detail-panel @close2="close2" v-if="showOrderDetail==true"></order-detail-panel>
     </div>
+
 </template>
 
 <script>
 import UserInfoEditorPanel from "../components/UserInfoEditorPanel";
+import OrderDetailPanel from "../components/OrderDetailPanel";
 export default {
   name: "",
+  components:{UserInfoEditorPanel,OrderDetailPanel},
   data(){
    return{
-      Editor:false
+      showUserInfo:false,
+      showOrderDetail:false
     }
   },
   methods: {
@@ -60,10 +65,16 @@ export default {
         });
     },
     GoToUserInfoEditor(){
-      this.editor=true;
+      this.showUserInfo=true;
     },
-    close() {
-      this.editor = false
+    GoToOrderDetail(){
+      this.showOrderDetail=true;
+    },
+    close1() {
+      this.showUserInfo = false;
+    },
+    close2(){
+      this.showOrderDetail = false;
     }
   }
 };

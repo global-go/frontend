@@ -1,12 +1,8 @@
 <template>
 <div class="changeNum">
-    <div class="button"><img src="../assets/left1.svg" @click="handleReduce" style=" width:25px; height:30px;"/></div>
-    <div class="buyNum">
-        <p style="font-size:25px;color:#505050;margin-top:0%;">{{ buy_number}}</p>
-    </div>
-    <div class="button"><img src="../assets/right1.svg" @click="handleAdd" style=" width:25px; height:30px;"/></div>  
-
-                                          
+    <div><img src="../assets/left1.svg" @click="handleReduce" style=" width:25px; height:30px;"/></div>
+    <div class="buyNum">{{ buy_number}}</div>
+    <div><img src="../assets/right1.svg" @click="handleAdd" style=" width:25px; height:30px;"/></div>                                          
 </div>
    
 </template>
@@ -36,10 +32,9 @@ export default {
     width: 120px;
     height: 30px;   
     display: flex;
-}
-
-.button{
     background-color: #ffc300;
+    align-items: center;
+    justify-content: center;
 }
 
 .buyNum{
@@ -48,5 +43,8 @@ export default {
     background-color: white;
     text-align:center;
     border:1px solid #000;
+    font-size:25px;
+    color:#505050;
+    line-height: 28px;
 }
 </style>

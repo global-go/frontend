@@ -47,7 +47,7 @@
         </div>
     
         <div @click="ifcommit=true,message='订单提交成功'" :class="{'commit_order':ifcommit==false,'finish_commit':ifcommit==true}">
-            <h3 style="font-size:20px;padding-top:16px;">{{message}}</h3>
+            {{message}}
         </div>
         <div class="return">
             <h3 @click="returnHome" style="color:#505050;font-size:18px;">返回首页</h3>
@@ -159,6 +159,9 @@ export default {
     margin-top: 1%;
     margin-left: 88%;
     color:#000000;
+    font-size: 20px;
+    line-height: 56px;
+    font-weight: 600;
 }
 
 .commit_order:hover{
@@ -175,6 +178,9 @@ export default {
     margin-left: 88%;
     color:#000000;
     background-color: white;
+    line-height: 56px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 

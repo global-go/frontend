@@ -17,8 +17,9 @@
             <div class="line2"></div>
             <div class="txt">未完成的订单数：1笔</div>
             <div class="txt">钱包余额：12.00</div>
-            <div class="btn" @click="goToMyOrder()">我的订单</div>
-            <div class="btn" @click="goToCart()">购物车</div>     
+            <div class="btn" @click="goToMyOrder()">我的信息</div>
+            <div class="btn" @click="goToCart()">购物车</div>   
+            
         </div>
      
       </div>
@@ -55,9 +56,10 @@
      
     </div>
     
-    <div class="detail">
-    <CommodityDetailPanel @close="close" v-if="showDetail==true"></CommodityDetailPanel>
-    </div>
+    
+    <commodity-detail-panel @close="close" v-if="showDetail==true"></commodity-detail-panel>
+    <admin-user-info-editor-panel @close="close" v-if="showGoodsEditor==true"></admin-user-info-editor-panel>
+    
   </div>
 </template>
 
@@ -99,14 +101,17 @@ export default {
     goToDetail(){
       this.showDetail=true;
     },
+
     close() {
-      this.showDetail = false
-    }
+      this.showDetail = false;
+      
+    }   
   },
   data(){
     state:true;
     return{
-      showDetail:false
+      showDetail:false,
+      
     }
     
   }
@@ -356,10 +361,6 @@ input {
   width: 10px;
   height: 10px;
   border-radius: 4px;
-}
-
-.detail{
-  
 }
 
 </style>

@@ -3,59 +3,46 @@
     <div class="mask" @click="close"></div>
     <div class="content">
       <div class="img_detail">
-        <div class="img">
-          <img src="../assets/commodity.jpg" style="width: 600px;height: 600px;margin-top: 40px;margin-left: 40px;"/>
 
+        <div class="img">
+          <div class="goods_img"><img src="../assets/commodity.jpg" style="width: 600px;height: 600px;"/></div>
           <div class="four_imgs_box">
-            <img src="../assets/left2.svg" @click="handleLeft" style=" width:50px; height:100px;margin-top:5%;"/>
-            <img src="../assets/right2.svg" @click="handleRight" style=" width:50px; height:100px; margin-left:84.5%; "/>
+            <div><img src="../assets/left2.svg" @click="handleLeft" style=" width:50px; height:150px;"/></div>
             <div class="four_imgs">
-                <div class="one_img" v-for="i in 4" :key="i">
-                  <img src="../assets/commodity.jpg" style="width:120px;height:130px;"/>                           
-                </div>
+              <div v-for="i in 4" :key="i"><img src="../assets/commodity.jpg" style="width:125px;height:125px;"/></div>
             </div>
-              
-          </div>
-          
+            <div><img src="../assets/right2.svg" @click="handleRight" style=" width:50px; height:150px; "/></div>            
+          </div>        
         </div>
               
-
         <div class="detail">
-          <hr style="margin-top:20%;margin-left:3%;height:3px;width:500px;border:0px;background-color:#ff8d1a;color:ff8d1a;"/>
-          <hr style="margin-top:-10%;margin-left:5%;height:500px;width:2px;border:0px;background-color:#ffc300;color:ffc300;"/>
-          <div class="name">
-              <h1 style="font-size:45px;">商品名称如果很长的话会占两行</h1>
+          <div class="r_line"></div>
+          <div class="c_line"></div>
+          <div class="name">商品名称如果很长的话会占两行</div>
+          <div class="v_line"></div>
+          <div class="text_box">
+              <div class="text1">售价：</div>
+              <div class="price">{{price}}</div>         
+              <div class="text1">库存: {{inventory}} 件</div>
+              <div class="text1">销量: {{sales_number}} 件</div>          
+              <div class="text1">数量:</div>
+              <num-input style="margin-top:-8%;margin-left:20%;"></num-input>          
           </div>
-          <hr size="3" style="margin-top:-2%;margin-left:30%;color:#ffc300;border-style:dashed ;width:380px;"/>
-          <p style="margin-top:1%;margin-left:12%;color:#505050;font-size:25px;" >售价:</p>
-          <strong><h1 style="margin-top:-5%;margin-left:25%;color:#ff8d1a;font-size:60px;">{{price}}</h1></strong>
-          <p style="margin-top:-5%;margin-left:12%;color:#505050;font-size:25px;">库存: {{inventory}} 件</p>
-          <p style="margin-top:-2%;margin-left:12%;color:#505050;font-size:25px;">销量: {{sales_number}} 件</p>
-          <div>
-              <p style="margin-left:12%;color:#505050;font-size:25px;">数量:</p>
-              <div class="changeNum">
-                  <img src="../assets/left1.svg" @click="handleReduce" style=" width:50px; height:40px;margin-left:-5%;"/>
-                  <img src="../assets/right1.svg" @click="handleAdd" style=" width:50px; height:40px;margin-left:38%;"/>  
-                  <div class="buyNum">
-                      <p style="font-size:25px;color:#505050;">{{ buy_number}}</p>
-                  </div>
-                                    
-              </div>
-          </div>
-
           <div class="buttons" >
-              <div class="button1" @click="buyItNow" >
-                  <h2 style="color:#ffffff;font-size:25px;border-top:20%;" >立即购买</h2>
+              <div class="button" @click="buyItNow" >
+                <img style="width:25px;height:25px;" src="../assets/OK.svg"/>
+                立即购买
               </div>
+              <div class="button" @click="addToCart" style="margin-top:5%;">
+                <img style="width:25px;height:25px;" src="../assets/shopping-cart.svg"/>
+                加入购物车
+              </div> 
+          </div>
+        </div>
 
-              <div class="button2" @click="addToCart">
-                  <h2 style="color:#ffffff;font-size:25px;">加入购物车</h2>
-              </div>
-          </div>
-          </div>
       </div>
 
-      <div class="text">
+      <div class="text2">
           <div class="title">
               <h1 style="color:#383838;font-size:35px;text-align:center; " >商品详情</h1>
           </div>
@@ -71,8 +58,10 @@
 
 
 <script>
+import NumInput from "../components/NumInput.vue" 
 export default {
-  name: "CommodityDetail",
+  name: "CommodityDetailPanel",
+  components:{NumInput},
   props: ["goods_id"],
   data() {
     return {
@@ -160,7 +149,7 @@ export default {
   overflow-y: auto;
   right: 0px;
   top: 0px;
-  width: 70vw;
+  width: 80vw;
   height: 100vh;
   background-color: white;
   animation: slideIn 0.5s ease 1 backwards;
@@ -175,30 +164,35 @@ export default {
   vertical-align: top;
 }
 
+.goods_img{
+  margin-top: 40px;
+  margin-left: 40px;
+}
+
 .four_imgs_box {
   background-color: #ffc300;
   width: 655px;
   height: 160px;
   margin-left: 2%;
   margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .four_imgs {
   width: 560px;
   height: 150px;
   background-color: white;
-  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* position: absolute;
   display: flex;
   justify-content: space-around;
   margin-top: -8.7%;
   margin-left: 3.2%;
-  text-align: center;
-}
-
-.one_img {
-  width: 130px;
-  height: 130px;
-  margin-top: 2%;
+  text-align: center; */
 }
 
 .detail {
@@ -206,10 +200,56 @@ export default {
   vertical-align: top;
 }
 
+.r_line{
+  width: 500px;
+  height: 3px;
+  background-color: #ff8d1a;
+  margin-top: 70px;
+}
+
+.c_line{
+  width: 3px;
+  height: 500px;
+  background-color: #ffc300;
+  margin-left: 5%;
+  margin-top: -5%;
+}
+
+.v_line{
+  width: 300px;
+  height: 2px;
+  background-color: #ff8d1a;
+  margin-left: 40%;
+  margin-top: 2%;
+}
+
+.text_box{
+  width: 400px;
+  text-align: left;
+  margin-left: 10%;
+  margin-top: 2%;
+}
+
+.text1{
+  margin-top:2%; 
+  color:#505050;
+  font-size:25px;
+}
+
+.price{
+  font-size: 50px;
+  color: #ff8d1a;
+  font-weight: 700;
+  margin-left: 15%;
+}
+
 .name {
-  margin-top: -95%;
   margin-left: 10%;
   width: 450px;
+  font-size: 45px;
+  font-weight: bold;
+  margin-top: -90%;
+
 }
 
 .changeNum {
@@ -235,20 +275,23 @@ export default {
   text-align: center;
 }
 
-.button1 {
+.button {
   background-color: #ff8d1a;
   width: 320px;
   height: 60px;
-  background-image: "../assets/buyIt.svg";
+  color:#ffffff;
+  font-size:25px;
+  font-weight: 700;
+  line-height: 60px;
 }
 
-.button2 {
-  background-color: #ff8d1a;
-  width: 320px;
-  height: 60px;
+.button:hover{
+  background-color: black;
+  transition-duration: 0.8s;
+  color: #ffc300;
 }
 
-.text {
+.text2 {
   width: 100%;
 }
 
