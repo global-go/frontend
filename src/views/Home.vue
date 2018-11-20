@@ -50,6 +50,7 @@
 
     <div class="detail">
     <CommodityDetailPanel @close="close" v-if="showDetail==true"></CommodityDetailPanel>
+   
     </div>
   </div>
 </template>

@@ -39,6 +39,7 @@
             </div> 
         </div>
         <ChangePage style="margin-top:40px"></ChangePage>
+       
     </div>
 </template>
 
@@ -46,11 +47,12 @@
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
 
+
 export default {
   name: "",
   components:{
     SearchBar,
-    ChangePage
+    ChangePage,
   },
   methods: {
     back() {

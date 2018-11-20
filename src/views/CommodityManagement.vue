@@ -32,7 +32,7 @@
             <div class="com-name">商品名称很长的话就会占两行这样子</div>
             <div class="com-price">单价：<br/>RMB 180.00</div>
             <div class="number-price">库存: 2</div>
-            <div class="buyer">描述：<br/>商品的概况........</div>
+            <div class="buyer">描述：<br/>商品的概况.....</div>
             
             <div class="btn1">
               <div class="click-btn">编辑商品</div>
@@ -40,17 +40,25 @@
             </div> 
         </div>
 <ChangePage style="margin-top:40px"></ChangePage>
+ <CommodityEditorPanel @close="close" v-if="editor==true"></CommodityEditorPanel>
     </div>
 </template>
 
 <script>
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
+import CommodityEditorPanel from "../components/CommodityEditorPanel";
 export default {
   name: "",
-  components:{
+  data() {
+    return {
+      editor: false
+    };
+  },
+  components: {
     SearchBar,
-    ChangePage
+    ChangePage,
+    CommodityEditorPanel
   },
   methods: {
     exit() {
@@ -58,11 +66,17 @@ export default {
         path: "/"
       });
     },
-    back(){
-        this.$router.push({
-            path:"/AdminHome"
-        });
+    back() {
+      this.$router.push({
+        path: "/AdminHome"
+      });
     },
+    GoToManageCommodity() {
+      this.editor = true;
+    },
+    close() {
+      this.editor = false;
+    }
   }
 };
 </script>
@@ -102,8 +116,8 @@ export default {
   padding: 30px 0;
 }
 
-.Adm{
-    display: flex;
+.Adm {
+  display: flex;
 }
 
 .user-name {
@@ -121,10 +135,9 @@ export default {
   margin-left: 12px;
 }
 
-.exit:hover{
-    cursor: pointer;
+.exit:hover {
+  cursor: pointer;
 }
-
 
 .back {
   font-size: 16px;
@@ -157,7 +170,7 @@ export default {
   height: 80px;
   width: 1px;
   margin-left: 20px;
-  background-color:rgba(128, 128, 128, 0.8);
+  background-color: rgba(128, 128, 128, 0.8);
 }
 
 .unfinishedOrder {
@@ -168,15 +181,15 @@ export default {
   margin-left: 20px;
 }
 
-.income{
+.income {
   font-size: 15px;
   margin-top: 30px;
   font-weight: bold;
   color: rgba(56, 56, 56, 1);
-  margin-left: 20px;    
+  margin-left: 20px;
 }
 
-.btn{
+.btn {
   margin-top: 20px;
   margin-left: 40px;
   height: 40px;
@@ -189,12 +202,11 @@ export default {
   text-align: center;
 }
 
-.btn:hover{
+.btn:hover {
   background-color: black;
   color: white;
   transition-duration: 0.8s;
   cursor: pointer;
-
 }
 
 .list {
@@ -225,22 +237,22 @@ export default {
   flex-grow: 1;
   line-height: 20px;
   font-weight: bold;
-  text-align: left
+  text-align: left;
 }
 
 .number-price {
   flex-grow: 1;
   font-weight: bold;
-  text-align: left
+  text-align: left;
 }
 
-.buyer{
+.buyer {
   flex-grow: 1;
   font-weight: bold;
   text-align: left;
 }
 
-.btn1{
+.btn1 {
   flex-grow: 1;
   font-weight: bold;
   text-align: left;
@@ -252,7 +264,6 @@ export default {
   text-decoration: underline;
   cursor: pointer;
 }
-
 
 .form {
   height: 50px;
@@ -269,7 +280,7 @@ input {
   width: 40vw;
   font-size: 20px;
   padding-left: 8px;
-  border:1px solid rgb(229, 229, 229);
+  border: 1px solid rgb(229, 229, 229);
 }
 
 .search {
@@ -284,7 +295,7 @@ input {
   background-size: 100%;
 }
 
-.search:hover{
+.search:hover {
   cursor: pointer;
   background-color: rgba(255, 195, 0, 1);
   transition-duration: 0.8s;

@@ -35,8 +35,8 @@
               <div class="click-btn" @click="Check()" >订单详情</div>
             </div> 
         </div>
- <UserInfoEditorPanel @close="close" v-if="editor==true"></UserInfoEditorPanel>
-  <OrderDetailPanel @close="close" v-if="detail===true"></OrderDetailPanel>
+ <UserInfoEditorPanel @close1="close1" v-if="editor==true"></UserInfoEditorPanel>
+  <OrderDetailPanel @close2="close2" v-if="detail===true"></OrderDetailPanel>
     </div>
 </template>
 
@@ -71,10 +71,13 @@ export default {
     Check(){
       this.detail=true
     },
-    close() {
-      this.editor = false,
-      this.detail=false
-    }
+    close1() {
+      this.editor = false
+     
+    },
+    close2() {
+      this.detail = false
+    },
   }
 };
 </script>
