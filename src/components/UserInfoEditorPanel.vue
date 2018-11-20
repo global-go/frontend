@@ -67,7 +67,7 @@ export default {
   top: 0px;
   width: 70vw;
   height: 100vh;
-  background-color: black;
+  background-color: white;
   animation: slideIn 0.5s ease 1 backwards;
 }
 

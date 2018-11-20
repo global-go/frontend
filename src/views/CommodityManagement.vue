@@ -2,6 +2,10 @@
     <div class="cart">
         <div class="bar1">
             <img class="logo" src="../assets/logo.png">
+             <div class="form">
+              <input type="text" placeholder="搜索订单...">
+              <div class="search"></div>
+            </div>
         </div>
         <div class="bar2">
             <img class="user-photo" src="../assets/photo.png">
@@ -9,7 +13,7 @@
                 <div class="Adm">
                      <div class="user-name">管理员</div>
                      <div class="exit" @click="exit()">退出</div>
-                     <div class="back" @click="back()">返回首页</div>
+                     <div class="back" @click="back()">返回</div>
                 </div>
                
                 <div class="message">
@@ -35,24 +39,30 @@
               <div class="click-btn" >删除商品</div>
             </div> 
         </div>
-
+<ChangePage style="margin-top:40px"></ChangePage>
     </div>
 </template>
 
 <script>
+import SearchBar from "../components/SearchBar";
+import ChangePage from "../components/ChangePage";
 export default {
   name: "",
+  components:{
+    SearchBar,
+    ChangePage
+  },
   methods: {
     exit() {
       this.$router.push({
         path: "/"
       });
     },
-    GoToManageCommodity() {
+    back(){
         this.$router.push({
-            pash:"/CommodityManagement"
+            path:"/AdminHome"
         });
-    }
+    },
   }
 };
 </script>
@@ -241,5 +251,42 @@ export default {
   transition-duration: 0.5s;
   text-decoration: underline;
   cursor: pointer;
+}
+
+
+.form {
+  height: 50px;
+  border-radius: 5px 0px 0px 5px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-top: 30px;
+  margin-right: 80px;
+}
+
+input {
+  width: 40vw;
+  font-size: 20px;
+  padding-left: 8px;
+  border:1px solid rgb(229, 229, 229);
+}
+
+.search {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(229, 229, 229, 1);
+  border-radius: 0px 5px 5px 0px;
+  border: none;
+  padding: 0;
+  background-image: url("../assets/search.svg");
+  display: inline-block;
+  background-size: 100%;
+}
+
+.search:hover{
+  cursor: pointer;
+  background-color: rgba(255, 195, 0, 1);
+  transition-duration: 0.8s;
 }
 </style>

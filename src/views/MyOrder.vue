@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="list" v-for="i in 4" :key="i">
+        <div class="list" v-for="i in 3" :key="i">
             <img class="com-photo" src="../assets/commodity.jpg">
             <div class="com-name">商品名称很长的话就会占两行这样子</div>
             <div class="com-price">单价：<br/>RMB 180.00</div>
@@ -32,20 +32,26 @@
             
             <div class="btn1">
               <div >等待卖家发货</div>
-              <div class="click-btn" >订单详情</div>
+              <div class="click-btn" @click="Check()" >订单详情</div>
             </div> 
         </div>
  <UserInfoEditorPanel @close="close" v-if="editor==true"></UserInfoEditorPanel>
+  <OrderDetailPanel @close="close" v-if="detail===true"></OrderDetailPanel>
     </div>
 </template>
 
 <script>
 import UserInfoEditorPanel from "../components/UserInfoEditorPanel";
+import OrderDetailPanel from "../components/OrderDetailPanel";
 export default {
   name: "",
+  components: {
+    UserInfoEditorPanel,OrderDetailPanel
+  },
   data(){
    return{
-      Editor:false
+      editor:false,
+      detail:false
     }
   },
   methods: {
@@ -60,10 +66,14 @@ export default {
         });
     },
     GoToUserInfoEditor(){
-      this.editor=true;
+      this.editor=true
+    },
+    Check(){
+      this.detail=true
     },
     close() {
-      this.editor = false
+      this.editor = false,
+      this.detail=false
     }
   }
 };
