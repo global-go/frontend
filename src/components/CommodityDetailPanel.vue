@@ -5,11 +5,11 @@
       <div class="img_detail">
 
         <div class="img">
-          <div class="goods_img"><img src="../assets/commodity.jpg" style="width: 600px;height: 600px;"/></div>
+          <div class="goods_img"><img :src="item.images[0].url" style="width: 600px;height: 600px;"/></div>
           <div class="four_imgs_box">
             <div><img src="../assets/left2.svg" @click="handleLeft" style=" width:50px; height:150px;"/></div>
             <div class="four_imgs">
-              <div v-for="i in 4" :key="i"><img src="../assets/commodity.jpg" style="width:125px;height:125px;"/></div>
+              <div v-for="(image, index) in item.images" :key="index"><img :src="image.url" style="width:125px;height:125px;"/></div>
             </div>
             <div><img src="../assets/right2.svg" @click="handleRight" style=" width:50px; height:150px; "/></div>            
           </div>        
@@ -18,13 +18,13 @@
         <div class="detail">
           <div class="r_line"></div>
           <div class="c_line"></div>
-          <div class="name">商品名称如果很长的话会占两行</div>
+          <div class="name">{{item.name}}</div>
           <div class="v_line"></div>
           <div class="text_box">
               <div class="text1">售价：</div>
-              <div class="price">{{price}}</div>         
-              <div class="text1">库存: {{inventory}} 件</div>
-              <div class="text1">销量: {{sales_number}} 件</div>          
+              <div class="price">{{item.price.toFixed(2)}}</div>         
+              <div class="text1">库存: {{item.stock}} 件</div>
+              <div class="text1">销量: {{0}} 件</div>          
               <div class="text1">数量:</div>
               <num-input style="margin-top:-8%;margin-left:20%;"></num-input>          
           </div>
@@ -47,7 +47,7 @@
               <h1 style="color:#383838;font-size:35px;text-align:center; " >商品详情</h1>
           </div>
           <div class="paragraph">
-              <p>{{descripion}}</p>                  
+              <p>{{item.description}}</p>
           </div>
         </div>
       </div>
@@ -62,17 +62,9 @@ import NumInput from "../components/NumInput.vue"
 export default {
   name: "CommodityDetailPanel",
   components:{NumInput},
-  props: ["goods_id"],
+  props: ["item"],
   data() {
     return {
-      price: "RMB 180.00",
-      inventory: 5,
-      sales_number: 10,
-      buy_number: 0,
-      descripion:
-        "  多肉植物（succulent plant）是指植物的根、茎、叶三种营养器官中至少有一种是肥厚多汁并且具备储藏大量水分功能的植物。其至少具有一种肉质组织，这种组织是一种活组织，除其他功能外，它能储藏可利用的水，在土壤含水状况恶化、植物根系不能再从土壤中吸收和提供必要的水分时，它能使植物暂时脱离外界水分供应而独立生存。 [1]  据粗略统计，全世界共有多肉植物一万余种，在分类上隶属100余科。" +
-        "\n" +
-        "  多肉植物（包括仙人掌类）中有不少种类具药用成分。例如，人们会选用刺少肉厚的仙人掌属植物茎片去皮捣烂后外敷,能治痈疖等皮肤病，该属中的金武扇和宝剑掌也对腮腺炎有明显的疗效。一种球形仙人掌——乌羽玉的茎和粗大肉质根都含有一种称为墨斯卡灵的生物碱，具致幻麻醉作用。墨西哥的印第安人在举行宗教仪式时，常边喝用龙舌兰酿制的蒲儿甘酒，边食用乌羽玉（当地人称为‘peyote’）在这种彻夜狂欢中，乌羽玉的消耗非常惊人。他们似乎也很懂得保护资源，在采集这种植物时从不连根挖而是用刀贴地割取，这样土中的肉质根能很快长出新的球茎。另有两种稀有的观赏植物：月世界和岩牡丹属植物，因含同样的成分而被当做代用品。"
     };
   },
   methods: {
