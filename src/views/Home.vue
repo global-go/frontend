@@ -2,7 +2,7 @@
   <div class="home">
     <div class="left-wrapper" >
       <img class="logo" src="../assets/logo.png">
-      <div v-if="state===flase">
+      <div v-if="state===false">
            <div class="login" @click="goToLogin()">登陆</div>
            <div class="register" @click="goToRegister()">注册</div>
       </div>
@@ -20,9 +20,7 @@
             <div class="btn" @click="goToMyOrder()">我的信息</div>
             <div class="btn" @click="goToCart()">购物车</div>     
         </div>
-     
       </div>
-      
     </div>
     <div class="medium-wrapper">
       <div class="sort">
@@ -39,18 +37,17 @@
       </div>
     </div>
     <div class="right-wrapper">
-      <SearchBar></SearchBar>
+      <SearchBar placeholder="这里的东西可以通过参数传进去了" @search="search"></SearchBar>
       <div class="total-commodity">
-         <div class="commodity"  v-for="i in 9" :key="i"  @click="goToDetail()">
-             <commodityItem></commodityItem>
+         <div class="commodity"  v-for="(item, index) in thisPage" :key="item.id"  @click="goToDetail(index)">
+             <commodityItem :item="item"></commodityItem>
           </div>
       </div>
-      <ChangePage></ChangePage>
-    </div> 
+      <ChangePage :pageCount="pageCount" v-model="page"></ChangePage>
+    </div>
 
     <div class="detail">
-    <CommodityDetailPanel @close="close" v-if="showDetail==true"></CommodityDetailPanel>
-   
+      <CommodityDetailPanel :item="selectedItem" @close="close" v-if="showDetail==true"></CommodityDetailPanel>
     </div>
   </div>
 </template>
@@ -70,6 +67,62 @@ export default {
     CommodityDetailPanel,
     SearchBar,
     ChangePage
+  },
+  data() {
+    return {
+      showDetail: false,
+      state: false,
+      selectedItem: {},
+      page: 1,
+      searchKey: ''
+    };
+  },
+  computed: {
+    searchDataWrapper() {
+      if (this.searchKey === '') {
+        return this.commodities;
+      } else {
+        return this.commodities.filter(v => {
+          return v.name.indexOf(this.searchKey) !== -1
+        })
+      }
+    },
+    commodities() {
+      return this.$store.state.commodities
+    },
+    pageCount() {
+      return Math.ceil(this.searchDataWrapper.length / 9)
+    },
+    thisPage() {
+      return this.searchDataWrapper.slice((this.page - 1) * 9, this.page * 9)
+    }
+  },
+  mounted() {
+    // Suppose that you send request to get commodity info here.
+
+    // Inject test data.
+    let commodities = [];
+    for (let i = 0; i < 100; i++) {
+      commodities.push({
+        id: i,
+        name: `测试商品${i}`,
+        price: i * 20,
+        stock: 10,
+        description: `blablabla....这是第${i}个商品的介绍`,
+        images: [
+          {
+            id: 0,
+            url: "https://rajio.delbertbeta.cc/d/f176604a17748755bff2f7fc4a34f9f6/face4.jpg"
+          }, {
+            id: 1,
+            url: "https://rajio.delbertbeta.cc/d/e77cd34b66bbbdeaaf96720127d44e05/mmexport1537805153410.jpg"
+          }
+        ]
+      });
+    }
+
+    // Store data into Vuex
+    this.$store.commit('setCommodityList', commodities)
   },
   methods: {
     exit() {
@@ -95,19 +148,16 @@ export default {
         path: "/MyOrder"
       });
     },
-    goToDetail() {
+    goToDetail(index) {
+      this.selectedItem = this.thisPage[index];
       this.showDetail = true;
     },
     close() {
       this.showDetail = false;
+    },
+    search(e) {
+      this.searchKey = e
     }
-  },
-  data() {
-    return {
-      showDetail: false,
-      state: false,
-     
-    };
   }
 };
 </script>

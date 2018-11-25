@@ -1,13 +1,12 @@
 <template>
     <div class="container">
-      <div class="picture"></div>
+      <div class="picture" :style="{ backgroundImage: `url(${item.images[0].url})` }"></div>
       <div class="content">
          <div class="yellow-line"></div>
-         <div class="name">很长很长很长的商品名称lalala</div>
-         <div class="price">RMB 180.00</div>
+         <div class="name">{{ item.name }}</div>
+         <div class="price">RMB {{ item.price.toFixed(2) }}</div>
          <!--<img @ class="cart" src="../assets/shopping-cart.svg">-->
       </div>
-      
     </div>
 
 </template>
@@ -15,8 +14,8 @@
 <script>
 
 export default {
-  name: "commodity"
-
+  name: "commodityItem",
+  props: ['item']
 }; 
 </script> 
 

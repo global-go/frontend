@@ -1,7 +1,7 @@
 <template>
  <div class="form">
-        <input type="text" placeholder="搜索感兴趣的商品">
-        <div class="search"></div>
+  <input type="text" :placeholder="placeholder" v-model="value" @keydown="keydown($event)">
+  <div class="search" @click="search"></div>
 </div>
    
 </template>
@@ -10,12 +10,20 @@
 export default {
   name: "SearchBar",
   methods: {
-    
-  },
-  data(){
-      return{
-       
+    keydown(e) {
+      if (e.keyCode === 13) {
+        this.$emit("search", this.value);
       }
+    },
+    search() {
+      this.$emit("search", this.value);
+    }
+  },
+  props: ["placeholder"],
+  data() {
+    return {
+      value: ""
+    };
   }
 };
 </script>
@@ -34,7 +42,7 @@ input {
   width: 650px;
   font-size: 20px;
   padding-left: 8px;
-  border:1px solid rgb(229, 229, 229);
+  border: 1px solid rgb(229, 229, 229);
 }
 
 .search {
@@ -49,7 +57,7 @@ input {
   background-size: 100%;
 }
 
-.search:hover{
+.search:hover {
   cursor: pointer;
   background-color: rgba(255, 195, 0, 1);
   transition-duration: 0.8s;
