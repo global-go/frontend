@@ -19,7 +19,7 @@
 
       </div>
       <div class="btn">
-        <div class="btn1">
+        <div class="btn1" @click="goToLogin()">
         注册
       </div>
       <div class="btn2">

@@ -71,7 +71,6 @@ export default {
   data() {
     return {
       showDetail: false,
-      state: false,
       selectedItem: {},
       page: 1,
       searchKey: ''
@@ -95,6 +94,9 @@ export default {
     },
     thisPage() {
       return this.searchDataWrapper.slice((this.page - 1) * 9, this.page * 9)
+    },
+    state() {
+      return this.$store.state.loginState
     }
   },
   mounted() {
@@ -112,10 +114,10 @@ export default {
         images: [
           {
             id: 0,
-            url: "https://rajio.delbertbeta.cc/d/f176604a17748755bff2f7fc4a34f9f6/face4.jpg"
+            url: "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
           }, {
             id: 1,
-            url: "https://rajio.delbertbeta.cc/d/e77cd34b66bbbdeaaf96720127d44e05/mmexport1537805153410.jpg"
+            url: "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
           }
         ]
       });
@@ -126,7 +128,8 @@ export default {
   },
   methods: {
     exit() {
-      state: false;
+      this.$store.commit('logout')
+      
     },
     goToLogin() {
       this.$router.push({
@@ -273,6 +276,10 @@ export default {
   color: rgba(255, 141, 0, 1);
   text-decoration: underline;
   margin-top: 23px;
+}
+
+.exit:hover{
+  cursor: pointer;
 }
 
 .line1 {

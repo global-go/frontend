@@ -30,7 +30,7 @@
           </div>
           <div class="buttons" >
               <div class="button" @click="buyItNow" >
-                <img style="width:25px;height:25px;" src="../assets/OK.svg"/>
+                <img style="width:25px;height:25px;margin:auto" src="../assets/OK.svg"/>
                 立即购买
               </div>
               <div class="button" @click="addToCart" style="margin-top:5%;">
@@ -243,7 +243,6 @@ export default {
 .buttons {
   margin-top: 11%;
   margin-left: 22%;
-  text-align: center;
 }
 .button {
   background-color: #ff8d1a;
@@ -253,6 +252,7 @@ export default {
   font-size:25px;
   font-weight: 700;
   line-height: 60px;
+  align-items: center;
 }
 .button:hover{
   background-color: black;

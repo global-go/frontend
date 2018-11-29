@@ -5,12 +5,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    commodities: []
+    commodities: [],
+    loginState: false
   },
   mutations: {
     setCommodityList(state, payload) {
       state.commodities = payload;
+    },
+    login(state) {
+      state.loginState = true
+    },
+    logout(state) {
+      state.loginState = false
     }
+
   },
   actions: {
 

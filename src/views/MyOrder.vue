@@ -43,6 +43,8 @@
 <script>
 import UserInfoEditorPanel from "../components/UserInfoEditorPanel";
 import OrderDetailPanel from "../components/OrderDetailPanel";
+import ChangePage from "../components/ChangePage";
+
 export default {
   name: "",
   components: {

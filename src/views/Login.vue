@@ -15,7 +15,7 @@
         <input type="text" placeholder="请输入密码">
 
       </div>
-      <div class="btn" @click="goToHome()">
+      <div class="btn" :state="state" @click="goToHome()">
         登陆
       </div>
       <div class="link" @click="goToRegister()">没有账号？立即注册</div>
@@ -32,8 +32,10 @@
 <script>
 export default {
   name: "",
+  props: ["state"],
   methods: {
     goToHome(){
+      this.$store.commit('login')
       this.$router.push({
         path: "/"
       });
@@ -72,7 +74,6 @@ export default {
   height: 400px;
   width: 45vw;
   margin-left: 80px;
-  /* margin-top: -50px; */
   background-image: url("../assets/turn1.jpg");
   border-radius: 150px;
   overflow: hidden;
