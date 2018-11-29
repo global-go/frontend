@@ -6,14 +6,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     commodities: [],
-    loginState: false
+    loginState: false,
+    userInfo: {}
   },
   mutations: {
     setCommodityList(state, payload) {
-      state.commodities = payload;
+      state.commodities = payload
     },
-    login(state) {
+    login(state, payload) {
       state.loginState = true
+      state.userInfo = payload
     },
     logout(state) {
       state.loginState = false
