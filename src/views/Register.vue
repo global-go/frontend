@@ -1,47 +1,75 @@
 <template>
-<div>
-  <img class="logo" src="../assets/logo.png">
-  <div class="box">
-    <div class="show-pic">
+  <div>
+    <img class="logo" src="../assets/logo.png">
+    <div class="box">
+      <div class="show-pic"></div>
+      <div class="register-wrapper">
+        <div class="user-wrapper">
+          <img src="../assets/user.svg" class="user">
+          <input v-model="username" type="text" placeholder="请输入账号">
+        </div>
+        <div class="key-wrapper">
+          <img src="../assets/key.svg" class="key">
+          <input v-model="password" type="password" placeholder="请输入密码">
+        </div>
+        <div class="makesure-wrapper">
+          <img src="../assets/makesure.svg" class="makesure">
+          <input v-model="checkPassword" type="password" placeholder="确认密码">
+        </div>
+        <div class="btn">
+          <div class="btn1" @click="register">注册</div>
+          <div class="btn2">取消</div>
+        </div>
+
+        <div class="link" @click="goToLogin">已有账号？立即登陆</div>
+      </div>
     </div>
-    <div class="register-wrapper">
-      <div class="user-wrapper">
-        <img src="../assets/user.svg" class="user">
-        <input type="text" placeholder="请输入账号">
-      </div>
-      <div class="key-wrapper">
-        <img src="../assets/key.svg" class="key">
-        <input type="text" placeholder="请输入密码">
-      </div>
-      <div class="makesure-wrapper">
-        <img src="../assets/makesure.svg" class="makesure">
-        <input type="text" placeholder="确认密码">
-
-      </div>
-      <div class="btn">
-        <div class="btn1" @click="goToLogin()">
-        注册
-      </div>
-      <div class="btn2">
-        取消
-      </div>
-      </div>
-      
-      <div class="link" @click="goToLogin()">已有账号？立即登陆</div>
-
-    </div>
-
-  </div> 
-
-</div>
-
-   
+  </div>
 </template>
 
 <script>
+import urls from "@/apis/urls";
+
 export default {
   name: "",
+  data() {
+    return {
+      username: "",
+      password: "",
+      checkPassword: ""
+    };
+  },
   methods: {
+    async register() {
+      if (this.password !== this.checkPassword) {
+        alert("两次输入的密码不一致");
+        return;
+      }
+      if (
+        this.username.trim() === "" ||
+        this.password.trim() === "" ||
+        this.checkPassword.trim() === ""
+      ) {
+        alert("没有填写完整哦");
+        return;
+      }
+      const result = await this.axios({
+        method: "post",
+        url: urls.register,
+        data: {
+          userID: this.username,
+          password: this.password
+        }
+      });
+      if (result.data.code === 0) {
+        alert("注册成功！");
+        this.$router.push({
+          path: "/login"
+        });
+      } else {
+        alert(result.data.errMessage)
+      }
+    },
     goToLogin() {
       this.$router.push({
         path: "/login"
@@ -143,16 +171,13 @@ input {
   width: 45px;
 }
 
-.btn{
+.btn {
   display: flex;
   justify-content: space-around;
   margin-top: 30px;
 }
 
-
-
 .btn1 {
-  
   height: 45px;
   width: 6vw;
   background-color: rgba(255, 195, 0, 1);
@@ -166,12 +191,11 @@ input {
   margin-right: auto; */
 }
 
-.btn1:hover{
+.btn1:hover {
   background-color: black;
   color: white;
   transition-duration: 0.8s;
   cursor: pointer;
-
 }
 
 .btn2 {
@@ -188,12 +212,11 @@ input {
   margin-right: auto; */
 }
 
-.btn2:hover{
+.btn2:hover {
   background-color: black;
   color: white;
   transition-duration: 0.8s;
   cursor: pointer;
-
 }
 
 .link {
@@ -201,7 +224,6 @@ input {
   font-size: 16px;
   color: rgba(255, 141, 26, 1);
   text-decoration: underline;
- 
 }
 .link:hover {
   cursor: pointer;

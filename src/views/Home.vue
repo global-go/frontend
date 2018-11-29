@@ -9,11 +9,11 @@
       <div v-else>
          <div class="grey-frame">
           <div class="fir">
-            <div class="welcome">欢迎回来，用户A！</div>
+            <div class="welcome">欢迎回来，{{userInfo.id}}！</div>
             <div  class="exit" @click="exit()">注销</div>
           </div>
             <div class="line1"></div>
-            <img class="pic" src="../assets/photo.png">
+            <img class="pic" :src="userInfo.avatar">
             <div class="line2"></div>
             <div class="txt">未完成的订单数：1笔</div>
             <div class="txt">钱包余额：12.00</div>
@@ -77,6 +77,9 @@ export default {
     };
   },
   computed: {
+    userInfo() {
+      return this.$store.state.userInfo
+    },
     searchDataWrapper() {
       if (this.searchKey === '') {
         return this.commodities;

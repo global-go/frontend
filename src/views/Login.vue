@@ -1,38 +1,36 @@
 <template>
-<div>
-  <img class="logo" src="../assets/logo.png">
-  <div class="box">
-    <div class="show-pic">
+  <div>
+    <img class="logo" src="../assets/logo.png">
+    <div class="box">
+      <div class="show-pic"></div>
+      <div class="login-wrapper">
+        <div class="user-wrapper">
+          <img src="../assets/user.svg" class="user">
+          <input v-model="username" type="text" placeholder="请输入账号">
+        </div>
+        <div class="key-wrapper">
+          <img src="../assets/key.svg" class="key">
+          <input v-model="password" type="password" placeholder="请输入密码">
+        </div>
+        <div class="btn" :state="state" @click="login">登陆</div>
+        <div class="link" @click="goToRegister()">没有账号？立即注册</div>
+      </div>
     </div>
-    <div class="login-wrapper">
-      <div class="user-wrapper">
-        <img src="../assets/user.svg" class="user">
-        <input type="text" placeholder="请输入账号">
-
-      </div>
-      <div class="key-wrapper">
-        <img src="../assets/key.svg" class="key">
-        <input type="text" placeholder="请输入密码">
-
-      </div>
-      <div class="btn" :state="state" @click="goToHome()">
-        登陆
-      </div>
-      <div class="link" @click="goToRegister()">没有账号？立即注册</div>
-
-    </div>
-
-  </div> 
-
-</div>
-
-   
+  </div>
 </template>
 
 <script>
+import urls from '@/apis/urls'
+
 export default {
   name: "",
   props: ["state"],
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  },
   methods: {
     goToHome(){
       this.$store.commit('login')
@@ -44,6 +42,45 @@ export default {
       this.$router.push({
         path: "/register"
       });
+    },
+    async login() {
+      if (
+        this.username.trim() === "" ||
+        this.password.trim() === ""
+      ) {
+        alert("没有填写完整哦");
+        return;
+      }
+      const result = await this.axios({
+        method: "post",
+        url: urls.login,
+        data: {
+          userID: this.username,
+          password: this.password
+        }
+      });
+      if (result.data.code === 0) {
+        if (result.data.userInfo.type === 'user') {
+          const data = result.data.userInfo
+          data.token = result.data.token
+          data.unfinishedCount = result.data.unfinishedCount
+          this.$store.commit('login', data)
+          this.$router.push({
+            path: "/"
+          });
+        } else if (result.data.userInfo.type === 'admin') {
+          this.$router.push({
+            path: "/AdminHome"
+          });
+        } else if (result.data.userInfo.type === 'sysAdmin') {
+          this.$router.push({
+            path: "/UserList"
+          });
+        }
+
+      } else {
+        alert('用户名或密码错误')
+      }
     }
   }
 };
@@ -90,25 +127,23 @@ export default {
   margin-right: 110px;
   justify-content: center;
   align-content: center;
-  
 }
 
-.user-wrapper{
+.user-wrapper {
   margin-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-input{
+input {
   display: inline-block;
   height: 45px;
   width: 16vw;
-  background-color:rgba(229, 229, 229, 0.5);
+  background-color: rgba(229, 229, 229, 0.5);
   font-size: 20px;
   color: rgba(51, 51, 51, 1);
   margin-left: 5px;
-
 }
 .user {
   display: inline-block;
@@ -116,12 +151,11 @@ input{
   width: 45px;
 }
 
-.key-wrapper{
-   display: flex;
+.key-wrapper {
+  display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 40px;
-
 }
 
 .key {
@@ -130,7 +164,7 @@ input{
   width: 45px;
 }
 
-.btn{
+.btn {
   margin-top: 40px;
   height: 50px;
   width: 8vw;
@@ -142,24 +176,22 @@ input{
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-
 }
 
-.btn:hover{
+.btn:hover {
   background-color: black;
   color: white;
   transition-duration: 0.8s;
   cursor: pointer;
-
 }
 
-.link{
+.link {
   margin-top: 20px;
   font-size: 16px;
   color: rgba(255, 141, 26, 1);
-  text-decoration:underline;
+  text-decoration: underline;
 }
-.link:hover{
+.link:hover {
   cursor: pointer;
 }
 </style>
