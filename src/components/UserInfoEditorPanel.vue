@@ -1,45 +1,106 @@
 <template>
-    <div class="wrapper">
-        <div class="mask" @click="close"></div>
-        <div class="content">
-            <div class="box1">
-                <img src="../assets/photo.png" style="height:180px;width:180px;margin-left:15%;margin-top:5%;"/>       
-            </div>   
-            <div class="box2">
-                <div class="text2">账号：001</div>
-                <div class="text2">昵称：用户A</div>
-                <div class="text2">密码：
-                  <input placeholder="请输入新密码..." style="width:150px;height:35px;margin-left:-2%;margin-top:-10px;">
-                </div>
-                <div class="text2">账户余额：RMB 1000.00</div>
-                <div class="text2">修改余额：
-                  <input placeholder="输入余额..." style="width:100px;height:35px;margin-left:-2%;">
-                </div>
-            </div>  
-            <div class="box3">
-                <div class="confirm_modify">
-                  <!-- <img style="width:25px;height:25px;" src="../assets/OK.svg"/> -->
-                  确认修改
-                </div>
-            </div>
+  <div class="wrapper">
+    <div class="mask" @click="close"></div>
+    <div class="content">
+      <div class="box1">
+        <img
+          :src="userInfo.avatar"
+          style="height:180px;width:180px;margin-left:10%;margin-top:10%;"
+        >
+        <div class="text1">修改头像</div>
+      </div>
+      <div class="box2">
+        <div class="text2">账号：{{userInfo.id}}</div>
+        <div class="text2">
+          <div>昵称:</div>
+          <input
+            placeholder="请输入新昵称..."
+            v-model="nickname"
+            style="width:150px;height:35px;margin-left:-2%;"
+          >
         </div>
-      
+        <div class="text2">
+          <div>密码：</div>
+          <input
+            placeholder="请输入新密码..."
+            v-model="password"
+            style="width:150px;height:35px;margin-left:-2%;"
+          >
+        </div>
+        <div class="text2">账户余额：RMB 1000.00</div>
+      </div>
+      <div class="box3">
+        <div class="confirm_modify" @click="modify">
+          <!-- <img style="width:25px;height:25px;" src="../assets/OK.svg"/> -->
+          确认修改
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 
 
 <script>
+import urls from "@/apis/urls";
 export default {
-  name: "OrderDetailPanel",
-  props: ["goods_id"],
+  name: "UserInfoEditorPanel",
   data() {
     return {
+      nickname: "",
+      password: ""
     };
   },
-  methods: {   
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    }
+  },
+  methods: {
     close() {
-      this.$emit('close1')
+      this.$emit("close");
+    },
+    async modify() {
+      let nickname = "";
+      if (this.nickname.trim() !== "" && this.password.trim() !== "") {
+        const result = await this.axios({
+          method: "put",
+          url: urls.userModify(this.userInfo.id),
+          data: {
+            token: this.userInfo.token,
+            userInfo: {
+              nickname: this.nickname,
+              password: this.password
+            }
+          }
+        });
+        this.$store.commit("modify", { nickname: result.data.user.nickname });
+      } else if (this.password.trim() !== "") {
+        const result = await this.axios({
+          method: "put",
+          url: urls.userModify(this.userInfo.id),
+          data: {
+            token: this.userInfo.token,
+            userInfo: {
+              password: this.password
+            }
+          }
+        });
+      } else if (this.nickname.trim() !== "") {
+        const result = await this.axios({
+          method: "put",
+          url: urls.userModify(this.userInfo.id),
+          data: {
+            token: this.userInfo.token,
+            userInfo: {
+              nickname: this.nickname
+            }
+          }
+        });
+        this.$store.commit("modify", { nickname: result.data.user.nickname });
+      }
+
+      this.$emit("close");
     }
   }
 };
@@ -72,10 +133,10 @@ export default {
 }
 @keyframes slideIn {
   from {
-    transform: translateX(100%)
+    transform: translateX(100%);
   }
   to {
-    transform: translateX(0%)
+    transform: translateX(0%);
   }
 }
 .content {
@@ -88,65 +149,80 @@ export default {
   background-color: white;
   animation: slideIn 0.5s ease 1 backwards;
 }
-.box1{
-    background-color: #e5e5e5;
-    width: 93%;
-    margin-left: 7%;
-    margin-top: 8%;
-    text-align: left;
-    padding-top: 1%;
-    height:30vh;
-    display: flex;
+.box1 {
+  background-color: #e5e5e5;
+  width: 93%;
+  margin-left: 7%;
+  margin-top: 8%;
+  text-align: left;
+  padding-top: 1%;
+  height: 30vh;
+  display: flex;
 }
-.box2{
-    background-color: #e5e5e5;
-    width: 93%;
-    margin-left: 7%;
-    margin-top: 8%;
-    text-align: left;
-    padding-top: 2%;
-    height:45vh;
+.text1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #505050;
+  margin-top: 40%;
+  margin-left: 5%;
 }
-.text1{
-    font-size: 20px;
-    font-weight:bold;
-    color: #505050;
-    margin-top:40%;
-    margin-left: 5%;
-}
-.text1:hover{
+.text1:hover {
   color: rgba(255, 141, 26, 1);
-  transition-duration:0.5s;
+  transition-duration: 0.5s;
   text-decoration: underline;
   cursor: pointer;
 }
-.text2{
-    font-size: 25px;
-    font-weight:bold;
-    color: #505050;
-    margin-top: 5%;
-    margin-left: 5%;
+.box2 {
+  background-color: #e5e5e5;
+  width: 93%;
+  margin-left: 7%;
+  margin-top: 8%;
+  text-align: left;
+  padding-top: 2%;
+  height: 35vh;
 }
-.box3{
+.text1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #505050;
+  margin-top: 40%;
+  margin-left: 5%;
+}
+.text1:hover {
+  color: rgba(255, 141, 26, 1);
+  transition-duration: 0.5s;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.text2 {
+  font-size: 25px;
+  font-weight: bold;
+  color: #505050;
+  margin-top: 5%;
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
+}
+.box3 {
   height: 250px;
   width: 100%;
 }
-.confirm_modify{
+.confirm_modify {
   width: 200px;
   height: 70px;
   background-color: #ffc300;
   margin-top: 10%;
   margin-left: auto;
   margin-right: auto;
-  font-size:25px;
-  color:black;
-  font-weight:600;
+  font-size: 25px;
+  color: black;
+  font-weight: 600;
   line-height: 70px;
 }
-.confirm_modify:hover{
+.confirm_modify:hover {
   background-color: black;
   color: white;
-  transition-duration:0.8s;
+  transition-duration: 0.8s;
   cursor: pointer;
 }
 </style>

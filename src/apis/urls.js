@@ -3,5 +3,8 @@ const prefix = "/v1"
 
 export default {
     register: prefix + '/register',
-    login: prefix + '/login'
+    login: prefix + '/login',
+    userModify:id => `${prefix}/user/${id}`,
+  
+
 }

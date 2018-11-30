@@ -8,7 +8,7 @@ import PerformOrder from './views/PerformOrder.vue'
 import AdminHome from './views/AdminHome.vue'
 import CommodityManagement from './views/CommodityManagement.vue'
 import MyOrder from './views/MyOrder.vue'
-import UserList from './views/Userlist.vue'
+
 
 Vue.use(Router)
 
@@ -54,12 +54,5 @@ export default new Router({
       name:'MyOrder',
       component:MyOrder
     },
-    {
-      path: '/UserList',
-      name:'UserList',
-      component:UserList
-    },
-
-
   ]
 })

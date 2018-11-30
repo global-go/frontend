@@ -60,6 +60,6 @@ input {
 .search:hover {
   cursor: pointer;
   background-color: rgba(255, 195, 0, 1);
-  transition-duration: 0.8s;
+  transition-duration: 0.5s;
 }
 </style>

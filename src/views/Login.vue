@@ -72,10 +72,6 @@ export default {
           this.$router.push({
             path: "/AdminHome"
           });
-        } else if (result.data.userInfo.type === 'sysAdmin') {
-          this.$router.push({
-            path: "/UserList"
-          });
         }
 
       } else {

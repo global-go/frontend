@@ -9,7 +9,7 @@
       <div v-else>
          <div class="grey-frame">
           <div class="fir">
-            <div class="welcome">欢迎回来，{{userInfo.id}}！</div>
+            <div class="welcome">欢迎回来，{{userInfo.nickname}}！</div>
             <div  class="exit" @click="exit()">注销</div>
           </div>
             <div class="line1"></div>
@@ -278,7 +278,7 @@ export default {
   font-size: 10px;
   color: rgba(255, 141, 0, 1);
   text-decoration: underline;
-  margin-top: 23px;
+  margin-top: 26px;
 }
 
 .exit:hover{

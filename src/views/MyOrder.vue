@@ -4,11 +4,11 @@
             <img class="logo" src="../assets/logo.png">
         </div>
         <div class="bar2">
-            <img class="user-photo" src="../assets/photo.png">
+            <img class="user-photo" :src="userInfo.avatar">
             <div class="user-message">
                 <div class="Adm">
-                     <div class="user-name">用户A</div>
-                     <div class="exit" @click="exit()">注销</div>
+                     <div class="user-name">{{userInfo.nickname}}</div>
+                     <!-- <div class="exit" @click="exit()">注销</div> -->
                      <div class="back" @click="exit()">返回首页</div>
                 </div>
                
@@ -56,6 +56,11 @@ export default {
       detail:false
     }
   },
+   computed: {
+    userInfo() {
+      return this.$store.state.userInfo
+    },
+   },
   methods: {
     exit() {
       this.$router.push({
@@ -131,10 +136,10 @@ export default {
 }
 
 .exit {
-  font-size: 15px;
+  font-size: 14px;
   color: rgba(255, 141, 0, 1);
   text-decoration: underline;
-  margin-top: 7px;
+  margin-top: 3px;
   margin-left: 12px;
 }
 
