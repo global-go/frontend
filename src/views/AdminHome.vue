@@ -1,58 +1,66 @@
 <template>
-    <div class="cart">
-        <div class="bar1">
-            <img class="logo" src="../assets/logo.png">
-            <div class="form">
-              <input type="text" placeholder="搜索订单...">
-              <div class="search"></div>
-            </div>
-        </div>
-        <div class="bar2">
-            <img class="user-photo" src="../assets/photo.png">
-            <div class="user-message">
-                <div class="Adm">
-                     <div class="user-name">管理员</div>
-                     <div class="exit" @click="back()">退出</div>
-                </div>
-               
-                <div class="message">
-                    <div class="totalOrder">总订单数：3笔</div>
-                    <div class="divide-line"></div>
-                    <div class="unfinishedOrder">未完成的订单数：1笔</div>
-                    <div class="divide-line"></div>
-                    <div class="income">当前累计收入：1000.00</div>
-                    <div class="btn" @click="GoToManageCommodity">管理商品</div>
-
-                </div>
-            </div>
-        </div>
-        <div class="list" v-for="i in 4" :key="i">
-            <img class="com-photo" src="../assets/commodity.jpg">
-            <div class="com-name">商品名称很长的话就会占两行这样子</div>
-            <div class="com-price">单价：<br/>RMB 180.00</div>
-            <div class="number-price">数量：2 <br/>总价：RMB 360.00</div>
-            <div class="buyer">买家账号：001 <br/>买家昵称：用户A</div>
-            
-            <div class="btn1">
-              <div class="click-btn">我已发货</div>
-              <div class="click-btn" >订单详情</div>
-            </div> 
-        </div>
-        <ChangePage style="margin-top:40px"></ChangePage>
-       
+  <div class="cart">
+    <div class="bar1">
+      <img class="logo" src="../assets/logo.png">
+      <div class="form">
+        <input type="text" placeholder="搜索订单...">
+        <div class="search"></div>
+      </div>
     </div>
+    <div class="bar2">
+      <img class="user-photo" src="../assets/photo.png">
+      <div class="user-message">
+        <div class="Adm">
+          <div class="user-name">管理员 {{userInfo.id}}</div>
+          <div class="exit" @click="back()">退出</div>
+        </div>
+
+        <div class="message">
+          <div class="totalOrder">总订单数：3笔</div>
+          <div class="divide-line"></div>
+          <div class="unfinishedOrder">未完成的订单数：1笔</div>
+          <div class="divide-line"></div>
+          <div class="income">当前累计收入：1000.00</div>
+          <div class="btn" @click="GoToManageCommodity">管理商品</div>
+        </div>
+      </div>
+    </div>
+    <div class="list" v-for="i in 4" :key="i">
+      <img class="com-photo" src="../assets/commodity.jpg">
+      <div class="com-name">商品名称很长的话就会占两行这样子</div>
+      <div class="com-price">单价：
+        <br>RMB 180.00
+      </div>
+      <div class="number-price">数量：2
+        <br>总价：RMB 360.00
+      </div>
+      <div class="buyer">买家账号：001
+        <br>买家昵称：用户A
+      </div>
+
+      <div class="btn1">
+        <div class="click-btn">我已发货</div>
+        <div class="click-btn">订单详情</div>
+      </div>
+    </div>
+    <ChangePage style="margin-top:40px"></ChangePage>
+  </div>
 </template>
 
 <script>
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
 
-
 export default {
   name: "",
-  components:{
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+  },
+  components: {
     SearchBar,
-    ChangePage,
+    ChangePage
   },
   methods: {
     back() {
@@ -61,9 +69,9 @@ export default {
       });
     },
     GoToManageCommodity() {
-        this.$router.push({
-            path:"/CommodityManagement"
-        });
+      this.$router.push({
+        path: "/CommodityManagement"
+      });
     }
   }
 };
@@ -104,8 +112,8 @@ export default {
   padding: 30px 0;
 }
 
-.Adm{
-    display: flex;
+.Adm {
+  display: flex;
 }
 
 .user-name {
@@ -123,8 +131,8 @@ export default {
   margin-left: 12px;
 }
 
-.exit:hover{
-    cursor: pointer;
+.exit:hover {
+  cursor: pointer;
 }
 
 .message {
@@ -143,7 +151,7 @@ export default {
   height: 80px;
   width: 1px;
   margin-left: 20px;
-  background-color:rgba(128, 128, 128, 0.8);
+  background-color: rgba(128, 128, 128, 0.8);
 }
 
 .unfinishedOrder {
@@ -154,15 +162,15 @@ export default {
   margin-left: 20px;
 }
 
-.income{
+.income {
   font-size: 15px;
   margin-top: 30px;
   font-weight: bold;
   color: rgba(56, 56, 56, 1);
-  margin-left: 20px;    
+  margin-left: 20px;
 }
 
-.btn{
+.btn {
   margin-top: 20px;
   margin-left: 40px;
   height: 40px;
@@ -175,12 +183,11 @@ export default {
   text-align: center;
 }
 
-.btn:hover{
+.btn:hover {
   background-color: black;
   color: white;
   transition-duration: 0.8s;
   cursor: pointer;
-
 }
 
 .list {
@@ -211,22 +218,22 @@ export default {
   flex-grow: 1;
   line-height: 20px;
   font-weight: bold;
-  text-align: left
+  text-align: left;
 }
 
 .number-price {
   flex-grow: 1;
   font-weight: bold;
-  text-align: left
+  text-align: left;
 }
 
-.buyer{
+.buyer {
   flex-grow: 1;
   font-weight: bold;
   text-align: left;
 }
 
-.btn1{
+.btn1 {
   flex-grow: 1;
   font-weight: bold;
   text-align: left;
@@ -254,7 +261,7 @@ input {
   width: 40vw;
   font-size: 20px;
   padding-left: 8px;
-  border:1px solid rgb(229, 229, 229);
+  border: 1px solid rgb(229, 229, 229);
 }
 
 .search {
@@ -269,7 +276,7 @@ input {
   background-size: 100%;
 }
 
-.search:hover{
+.search:hover {
   cursor: pointer;
   background-color: rgba(255, 195, 0, 1);
   transition-duration: 0.8s;

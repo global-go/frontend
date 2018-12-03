@@ -1,13 +1,10 @@
 <template>
   <div class="wrapper">
-    <div class="mask" @click="close"></div>
+    <div class="mask" @click="close1"></div>
     <div class="content">
       <div class="box1">
-        <img
-          :src="userInfo.avatar"
-          style="height:180px;width:180px;margin-left:10%;margin-top:10%;"
-        >
-        <div class="text1">修改头像</div>
+        <div class="avatar" :style="{backgroundImage: `url(${userInfo.avatar})`}"></div>
+        <UploadImg @returnUrl='updateAvatar'></UploadImg>
       </div>
       <div class="box2">
         <div class="text2">账号：{{userInfo.id}}</div>
@@ -27,7 +24,7 @@
             style="width:150px;height:35px;margin-left:-2%;"
           >
         </div>
-        <div class="text2">账户余额：RMB 1000.00</div>
+        <div class="text2">账户余额：RMB {{userInfo.balance.toFixed(2)}}</div>
       </div>
       <div class="box3">
         <div class="confirm_modify" @click="modify">
@@ -43,8 +40,12 @@
 
 <script>
 import urls from "@/apis/urls";
+import UploadImg from "../components/UploadImg";
 export default {
   name: "UserInfoEditorPanel",
+  components: {
+    UploadImg
+  },
   data() {
     return {
       nickname: "",
@@ -57,8 +58,8 @@ export default {
     }
   },
   methods: {
-    close() {
-      this.$emit("close");
+    close1() {
+      this.$emit("close1");
     },
     async modify() {
       let nickname = "";
@@ -75,6 +76,7 @@ export default {
           }
         });
         this.$store.commit("modify", { nickname: result.data.user.nickname });
+        this.$emit("close1");
       } else if (this.password.trim() !== "") {
         const result = await this.axios({
           method: "put",
@@ -86,6 +88,7 @@ export default {
             }
           }
         });
+        this.$emit("close1");
       } else if (this.nickname.trim() !== "") {
         const result = await this.axios({
           method: "put",
@@ -98,14 +101,15 @@ export default {
           }
         });
         this.$store.commit("modify", { nickname: result.data.user.nickname });
+        this.$emit("close1");
       }
-
-      this.$emit("close");
+    },
+    updateAvatar(data) {
+      this.$store.commit("modifyAvatar", {avatar: data});
     }
   }
 };
 </script>
-
 
 
 <style scoped>
@@ -159,18 +163,15 @@ export default {
   height: 30vh;
   display: flex;
 }
-.text1 {
-  font-size: 28px;
-  font-weight: bold;
-  color: #505050;
-  margin-top: 40%;
-  margin-left: 5%;
-}
-.text1:hover {
-  color: rgba(255, 141, 26, 1);
-  transition-duration: 0.5s;
-  text-decoration: underline;
-  cursor: pointer;
+
+.avatar {
+  background-position: center;
+  background-size: cover;
+  height: 180px;
+  width: 180px;
+  margin-left: 8%;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 .box2 {
   background-color: #e5e5e5;

@@ -12,7 +12,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setCommodityList(state, payload) {
-      state.commodities = payload
+      state.commodities.push(payload)
     },
     setUserList(state,payload){
       state.users = payload
@@ -26,7 +26,10 @@ export default new Vuex.Store({
     },
     modify(state, payload) {
       state.userInfo.nickname = payload.nickname
-      // state.userInfo.nickname = payload.avatar
+    },
+    modifyAvatar(state, payload) {
+      // Vue.set(this.state.userInfo,"avatar",payload.avatar)
+      state.userInfo.avatar = payload.avatar
     },
 
   },

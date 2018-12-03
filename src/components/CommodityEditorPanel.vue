@@ -1,76 +1,101 @@
  <template>
-    <div class="wrapper">
+  <div class="wrapper">
     <div class="mask" @click="close"></div>
     <div class="content">
       <div class="img_detail">
-
         <div class="img_box_bg">
-            <div class="img_box">
-                <div class="img_text">请上传商品图片</div>
-                <div class="imgs">
-                    <div class="img"></div>
-                </div>
-            </div>  
+          <div class="img_box">
+            <div class="imgs" v-for="img in images" :key="img"></div>
+            <!-- <div class="img_text">请上传商品图片</div> -->
+            <!-- <div class="img"></div> -->
+            <UploadImg @returnUrl="updateCommodity"></UploadImg>
+          </div>
         </div>
-              
+
         <div class="detail">
           <div class="r_line"></div>
           <div class="c_line"></div>
-          <div class="edit_name"><textarea v-model="add" placeholder="请输入商品名称" style="width:350px;height:150px;"></textarea></div>
+          <div class="edit_name">
+            <textarea v-model="name" placeholder="请输入商品名称" style="width:350px;height:150px;"></textarea>
+          </div>
           <div class="v_line"></div>
           <div class="text_box">
-              <div class="text1">售价：RMB
-                  <input v-model="name" placeholder="请输入商品价格" style="width:150px;height:30px;margin-left:5%;">
-              </div>          
-              <div class="text1">库存:
-                  <input v-model="name" placeholder="请输入商品库存" style="width:150px;height:30px;margin-left:5%;">
-              </div>
-              <div class="text1">商品类别:
-                  <select style="width:200px;height:30px;margin-left:5%;">
-                      <option>-请选择商品类别-</option>
-                      <option>食品</option>
-                      <option>衣服</option>
-                  </select>
-              </div>                         
+            <div class="text1">
+              售价：RMB
+              <input
+                v-model="price"
+                placeholder="请输入商品价格"
+                style="width:150px;height:30px;margin-left:5%;"
+              >
+            </div>
+            <div class="text1">
+              库存:
+              <input
+                v-model="stock"
+                placeholder="请输入商品库存"
+                style="width:150px;height:30px;margin-left:5%;"
+              >
+            </div>
+            <div class="text1">
+              商品类别:
+              <select v-model="category" style="width:200px;height:30px;margin-left:5%;">
+                <option>-请选择商品类别-</option>
+                <option>服装</option>
+                <option>配饰</option>
+                <option>美妆护肤</option>
+                <option>鞋子</option>
+                <option>其他</option>
+              </select>
+            </div>
           </div>
-          <div class="buttons" >
-              <div class="button1" >上架商品</div>
+          <div class="buttons">
+            <div class="button1" @click="Added">上架商品</div>
           </div>
         </div>
-
       </div>
 
       <div class="text2">
-          <div class="title">
-              <h1 style="color:#383838;font-size:35px;text-align:center; " >编辑商品详情</h1>
-          </div>
-          <div class="paragraph">
-              <textarea placeholder="请输入商品详情..." style="width:90%;height:400px;margin-top:3%;"></textarea>                
-          </div>
+        <div class="title">
+          <h1 style="color:#383838;font-size:35px;text-align:center; ">编辑商品详情</h1>
+        </div>
+        <div class="paragraph">
+          <textarea
+            v-model="description"
+            placeholder="请输入商品详情..."
+            style="width:90%;height:400px;margin-top:3%;"
+          ></textarea>
         </div>
       </div>
-      
     </div>
+  </div>
 </template>
 
 
 
 <script>
-import NumInput from "../components/NumInput.vue" 
+import NumInput from "../components/NumInput.vue";
+import UploadImg from "../components/UploadImg";
+import urls from "@/apis/urls";
 export default {
   name: "CommodityDetailPanel",
-  components:{NumInput},
+  components: { NumInput, UploadImg },
   props: ["goods_id"],
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+    commodities() {
+      return this.$store.state.commodities;
+    }
+  },
   data() {
     return {
-      price: "RMB 180.00",
-      inventory: 5,
-      sales_number: 10,
-      buy_number: 0,
-      descripion:
-        "  多肉植物（succulent plant）是指植物的根、茎、叶三种营养器官中至少有一种是肥厚多汁并且具备储藏大量水分功能的植物。其至少具有一种肉质组织，这种组织是一种活组织，除其他功能外，它能储藏可利用的水，在土壤含水状况恶化、植物根系不能再从土壤中吸收和提供必要的水分时，它能使植物暂时脱离外界水分供应而独立生存。 [1]  据粗略统计，全世界共有多肉植物一万余种，在分类上隶属100余科。" +
-        "\n" +
-        "  多肉植物（包括仙人掌类）中有不少种类具药用成分。例如，人们会选用刺少肉厚的仙人掌属植物茎片去皮捣烂后外敷,能治痈疖等皮肤病，该属中的金武扇和宝剑掌也对腮腺炎有明显的疗效。一种球形仙人掌——乌羽玉的茎和粗大肉质根都含有一种称为墨斯卡灵的生物碱，具致幻麻醉作用。墨西哥的印第安人在举行宗教仪式时，常边喝用龙舌兰酿制的蒲儿甘酒，边食用乌羽玉（当地人称为‘peyote’）在这种彻夜狂欢中，乌羽玉的消耗非常惊人。他们似乎也很懂得保护资源，在采集这种植物时从不连根挖而是用刀贴地割取，这样土中的肉质根能很快长出新的球茎。另有两种稀有的观赏植物：月世界和岩牡丹属植物，因含同样的成分而被当做代用品。"
+      price: "",
+      images: [],
+      name: "",
+      stock: "",
+      description: "",
+      category: ""
     };
   },
   methods: {
@@ -80,15 +105,9 @@ export default {
     handleAdd: function() {
       if (this.inventory > this.buy_number) this.buy_number++;
     },
-    // buyItNow: function() {
-    //   console.log("立即购买");
-    //   this.$router.push({
-    //     path: "/performOrder"
-    //   });
-    // },
     addToCart: function() {
       console.log("加入购物车");
-       this.$router.push({
+      this.$router.push({
         path: "/cart"
       });
     },
@@ -99,13 +118,43 @@ export default {
       console.log("right");
     },
     close() {
-      this.$emit('close')
+      this.$emit("close");
+    },
+    async Added() {
+      // let commodity = {};
+      if (
+        this.name.trim() === "" ||
+        this.category.trim() === "" ||
+        this.price.trim() === "" ||
+        this.stock.trim() === "" ||
+        this.descripion.trim() === "" ||
+        this.images.length == 0
+      ) {
+        alert("没有填写完整商品信息哦");
+        return;
+      }
+      const result = await this.axios({
+        method: "post",
+        url: urls.putaway,
+        data: {
+          token: this.userInfo.token,
+          name: this.name,
+          category: this.category,
+          price: parseFloat(this.price),
+          stock: parseInt(this.stock),
+          description: this.description,
+          images: this.images
+        }
+      });
+      this.$store.commit("setCommodityList", result.data.commodity);
+    },
+    updateCommodity(data) {
+      this.images.push(data);
+      console.log(images);
     }
   }
 };
 </script>
-
-
 
 <style scoped>
 .wrapper {
@@ -132,10 +181,10 @@ export default {
 }
 @keyframes slideIn {
   from {
-    transform: translateX(100%)
+    transform: translateX(100%);
   }
   to {
-    transform: translateX(0%)
+    transform: translateX(0%);
   }
 }
 .content {
@@ -149,84 +198,84 @@ export default {
   animation: slideIn 0.5s ease 1 backwards;
 }
 .img_detail {
-  display:flex;
+  display: flex;
 }
 .img_box_bg {
   width: 600px;
   height: 600px;
   background-color: #ffc300;
   margin-left: 40px;
-  margin-top:40px;
+  margin-top: 40px;
   align-items: center;
   justify-content: center;
   display: flex;
 }
-.img_box{
-    width: 570px;
-    height: 570px;
-    background-color: white;
+.img_box {
+  width: 570px;
+  height: 570px;
+  background-color: white;
 }
-.img_text{
-    color: black;
-    font-size: 25px;
-    text-align: left;
-    margin-left: 7%;
-    margin-top: 5%;
+.img_text {
+  color: black;
+  font-size: 25px;
+  text-align: left;
+  margin-left: 7%;
+  margin-top: 5%;
 }
-.imgs{
-    width: 90%;
-    height: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5%;
+.imgs {
+  width: 90%;
+  height: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
 }
-.img{
-    width: 100px;
-    height: 100px;
-    border:1px solid #cccccc;
-    margin-left: 5%;
+.img {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #cccccc;
+  margin-left: 5%;
 }
 .detail {
   display: inline-block;
   vertical-align: top;
 }
-.r_line{
+.r_line {
   width: 500px;
   height: 3px;
   background-color: #ff8d1a;
   margin-left: 2%;
   margin-top: 70px;
 }
-.c_line{
+.c_line {
   width: 3px;
   height: 500px;
   background-color: #ffc300;
   margin-left: 5%;
   margin-top: -5%;
 }
-.edit_name{
-    margin-left: -5%;
-    margin-top: -90%;
+.edit_name {
+  margin-left: -5%;
+  margin-top: -90%;
 }
-.v_line{
+.v_line {
   width: 300px;
   height: 2px;
   background-color: #ff8d1a;
   margin-left: 40%;
   margin-top: 3%;
 }
-.text_box{
+.text_box {
   width: 400px;
   text-align: left;
   margin-left: 10%;
   margin-top: 2%;
 }
-.text1{
-  margin-top:5%; 
-  color:#505050;
-  font-size:25px;
+.text1 {
+  margin-top: 5%;
+  color: #505050;
+  font-size: 25px;
 }
-.price{
+.price {
   font-size: 50px;
   color: #ff8d1a;
   font-weight: 700;
@@ -256,12 +305,12 @@ export default {
   background-color: #ff8d1a;
   width: 320px;
   height: 60px;
-  color:#ffffff;
-  font-size:25px;
+  color: #ffffff;
+  font-size: 25px;
   font-weight: 700;
   line-height: 60px;
 }
-.button1:hover{
+.button1:hover {
   background-color: black;
   transition-duration: 0.8s;
   color: #ffc300;
@@ -270,13 +319,13 @@ export default {
   background-color: #ff8d1a;
   width: 320px;
   height: 60px;
-  color:#ffffff;
-  font-size:25px;
+  color: #ffffff;
+  font-size: 25px;
   font-weight: 700;
   line-height: 60px;
   margin-top: 5%;
 }
-.button2:hover{
+.button2:hover {
   background-color: black;
   transition-duration: 0.8s;
   color: #ffc300;

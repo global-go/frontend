@@ -1,24 +1,25 @@
 <template>
   <div class="home">
-    <div class="left-wrapper" >
+    <div class="left-wrapper">
       <img class="logo" src="../assets/logo.png">
       <div v-if="state===false">
-           <div class="login" @click="goToLogin()">登陆</div>
-           <div class="register" @click="goToRegister()">注册</div>
+        <div class="login" @click="goToLogin()">登陆</div>
+        <div class="register" @click="goToRegister()">注册</div>
       </div>
       <div v-else>
-         <div class="grey-frame">
+        <div class="grey-frame">
           <div class="fir">
             <div class="welcome">欢迎回来，{{userInfo.nickname}}！</div>
-            <div  class="exit" @click="exit()">注销</div>
+            <div class="exit" @click="exit()">注销</div>
           </div>
-            <div class="line1"></div>
-            <img class="pic" :src="userInfo.avatar">
-            <div class="line2"></div>
-            <div class="txt">未完成的订单数：1笔</div>
-            <div class="txt">钱包余额：12.00</div>
-            <div class="btn" @click="goToMyOrder()">我的信息</div>
-            <div class="btn" @click="goToCart()">购物车</div>     
+          <div class="line1"></div>
+          <div class="pic" :style="{backgroundImage: `url(${userInfo.avatar})`}"></div>
+          <!-- <img class="pic" :src="userInfo.avatar"> -->
+          <div class="line2"></div>
+          <div class="txt">未完成的订单数：1笔</div>
+          <div class="txt">钱包余额：{{userInfo.balance.toFixed(2)}}</div>
+          <div class="btn" @click="goToMyOrder()">我的信息</div>
+          <div class="btn" @click="goToCart()">购物车</div>
         </div>
       </div>
     </div>
@@ -39,9 +40,14 @@
     <div class="right-wrapper">
       <SearchBar placeholder="这里的东西可以通过参数传进去了" @search="search"></SearchBar>
       <div class="total-commodity">
-         <div class="commodity"  v-for="(item, index) in thisPage" :key="item.id"  @click="goToDetail(index)">
-             <commodityItem :item="item"></commodityItem>
-          </div>
+        <div
+          class="commodity"
+          v-for="(item, index) in thisPage"
+          :key="item.id"
+          @click="goToDetail(index)"
+        >
+          <commodityItem :item="item"></commodityItem>
+        </div>
       </div>
       <ChangePage :pageCount="pageCount" v-model="page"></ChangePage>
     </div>
@@ -58,6 +64,7 @@ import commodityItem from "@/components/CommodityItem.vue";
 import CommodityDetailPanel from "../components/CommodityDetailPanel";
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
+import UploadImg from "../components/UploadImg";
 // import detail from '@/components/DetailPanel.vue'
 
 export default {
@@ -66,73 +73,76 @@ export default {
     commodityItem,
     CommodityDetailPanel,
     SearchBar,
-    ChangePage
+    ChangePage,
+    UploadImg
   },
   data() {
     return {
       showDetail: false,
       selectedItem: {},
       page: 1,
-      searchKey: ''
+      searchKey: ""
     };
   },
   computed: {
     userInfo() {
-      return this.$store.state.userInfo
+      return this.$store.state.userInfo;
     },
     searchDataWrapper() {
-      if (this.searchKey === '') {
+      if (this.searchKey === "") {
         return this.commodities;
       } else {
         return this.commodities.filter(v => {
-          return v.name.indexOf(this.searchKey) !== -1
-        })
+          return v.name.indexOf(this.searchKey) !== -1;
+        });
       }
     },
     commodities() {
-      return this.$store.state.commodities
+      return this.$store.state.commodities;
     },
     pageCount() {
-      return Math.ceil(this.searchDataWrapper.length / 9)
+      return Math.ceil(this.searchDataWrapper.length / 9);
     },
     thisPage() {
-      return this.searchDataWrapper.slice((this.page - 1) * 9, this.page * 9)
+      return this.searchDataWrapper.slice((this.page - 1) * 9, this.page * 9);
     },
     state() {
-      return this.$store.state.loginState
+      return this.$store.state.loginState;
     }
   },
   mounted() {
     // Suppose that you send request to get commodity info here.
 
     // Inject test data.
-    let commodities = [];
-    for (let i = 0; i < 100; i++) {
-      commodities.push({
-        id: i,
-        name: `测试商品${i}`,
-        price: i * 20,
-        stock: 10,
-        description: `blablabla....这是第${i}个商品的介绍`,
-        images: [
-          {
-            id: 0,
-            url: "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
-          }, {
-            id: 1,
-            url: "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
-          }
-        ]
-      });
-    }
+    // let commodities = [];
+    // for (let i = 0; i < 100; i++) {
+    //   commodities.push({
+    //     id: i,
+    //     name: `测试商品${i}`,
+    //     price: i * 20,
+    //     stock: 10,
+    //     description: `blablabla....这是第${i}个商品的介绍`,
+    //     images: [
+    //       {
+    //         id: 0,
+    //         url:
+    //           "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
+    //       },
+    //       {
+    //         id: 1,
+    //         url:
+    //           "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
+    //       }
+    //     ]
+    //   });
+    // }
 
     // Store data into Vuex
-    this.$store.commit('setCommodityList', commodities)
+    
   },
   methods: {
     exit() {
-      this.$store.commit('logout')
-      
+      this.$store.commit("logout");
     },
     goToLogin() {
       this.$router.push({
@@ -162,7 +172,7 @@ export default {
       this.showDetail = false;
     },
     search(e) {
-      this.searchKey = e
+      this.searchKey = e;
     }
   }
 };
@@ -281,7 +291,7 @@ export default {
   margin-top: 26px;
 }
 
-.exit:hover{
+.exit:hover {
   cursor: pointer;
 }
 
@@ -295,7 +305,12 @@ export default {
 .pic {
   height: 130px;
   width: 130px;
-  margin: 15px 15px;
+  margin: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  /* margin: 15px 15px; */
+  background-position: center;
+  background-size: cover;
 }
 
 .line2 {
@@ -303,12 +318,14 @@ export default {
   height: 2px;
   float: right;
   background-color: rgba(255, 141, 0, 1);
+
 }
 
 .txt {
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 14px;
   font-weight: bold;
+  padding-top: 5px;
 }
 
 .btn {

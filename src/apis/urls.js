@@ -5,6 +5,7 @@ export default {
     register: prefix + '/register',
     login: prefix + '/login',
     userModify:id => `${prefix}/user/${id}`,
-  
+    upload: prefix + '/images',
+    putway: prefix + '/admin/commodity',
 
 }

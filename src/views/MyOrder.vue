@@ -1,43 +1,47 @@
 <template>
-    <div class="cart">
-        <div class="bar1">
-            <img class="logo" src="../assets/logo.png">
-        </div>
-        <div class="bar2">
-            <img class="user-photo" :src="userInfo.avatar">
-            <div class="user-message">
-                <div class="Adm">
-                     <div class="user-name">{{userInfo.nickname}}</div>
-                     <!-- <div class="exit" @click="exit()">注销</div> -->
-                     <div class="back" @click="exit()">返回首页</div>
-                </div>
-               
-                <div class="message">
-                    <div class="totalOrder">总订单数：3笔</div>
-                    <div class="divide-line"></div>
-                    <div class="unfinishedOrder">未完成订单数：1笔</div>
-                    <div class="divide-line"></div>
-                    <div class="income">钱包余额：12.00</div>
-                    <div class="btn" @click="GoToUserInfoEditor()">编辑个人信息</div>
-
-                </div>
-            </div>
-        </div>
-        <div class="list" v-for="i in 3" :key="i">
-            <img class="com-photo" src="../assets/commodity.jpg">
-            <div class="com-name">商品名称很长的话就会占两行这样子</div>
-            <div class="com-price">单价：<br/>RMB 180.00</div>
-            <div class="number-price">数量: 2</div>
-            <div class="buyer">总价：<br/>RMB 360.00</div>
-            
-            <div class="btn1">
-              <div >等待卖家发货</div>
-              <div class="click-btn" @click="Check()" >订单详情</div>
-            </div> 
-        </div>
- <UserInfoEditorPanel @close1="close1" v-if="editor==true"></UserInfoEditorPanel>
-  <OrderDetailPanel @close2="close2" v-if="detail===true"></OrderDetailPanel>
+  <div class="cart">
+    <div class="bar1">
+      <img class="logo" src="../assets/logo.png">
     </div>
+    <div class="bar2">
+      <div class="user-photo" :style="{backgroundImage: `url(${userInfo.avatar})`}"></div>
+      <!-- <img class="user-photo" :src="userInfo.avatar"> -->
+      <div class="user-message">
+        <div class="Adm">
+          <div class="user-name">{{userInfo.nickname}}</div>
+          <!-- <div class="exit" @click="exit()">注销</div> -->
+          <div class="back" @click="exit()">返回首页</div>
+        </div>
+
+        <div class="message">
+          <div class="totalOrder">总订单数：3笔</div>
+          <div class="divide-line"></div>
+          <div class="unfinishedOrder">未完成订单数：1笔</div>
+          <div class="divide-line"></div>
+          <div class="income">钱包余额：{{userInfo.balance.toFixed(2)}}</div>
+          <div class="btn" @click="GoToUserInfoEditor()">编辑个人信息</div>
+        </div>
+      </div>
+    </div>
+    <div class="list" v-for="i in 3" :key="i">
+      <img class="com-photo" src="../assets/commodity.jpg">
+      <div class="com-name">商品名称很长的话就会占两行这样子</div>
+      <div class="com-price">单价：
+        <br>RMB 180.00
+      </div>
+      <div class="number-price">数量: 2</div>
+      <div class="buyer">总价：
+        <br>RMB 360.00
+      </div>
+
+      <div class="btn1">
+        <div>等待卖家发货</div>
+        <div class="click-btn" @click="Check()">订单详情</div>
+      </div>
+    </div>
+    <UserInfoEditorPanel @close1="close1" v-if="editor==true"></UserInfoEditorPanel>
+    <OrderDetailPanel @close2="close2" v-if="detail===true"></OrderDetailPanel>
+  </div>
 </template>
 
 <script>
@@ -48,19 +52,20 @@ import ChangePage from "../components/ChangePage";
 export default {
   name: "",
   components: {
-    UserInfoEditorPanel,OrderDetailPanel
+    UserInfoEditorPanel,
+    OrderDetailPanel
   },
-  data(){
-   return{
-      editor:false,
-      detail:false
+  data() {
+    return {
+      editor: false,
+      detail: false
+    };
+  },
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
     }
   },
-   computed: {
-    userInfo() {
-      return this.$store.state.userInfo
-    },
-   },
   methods: {
     exit() {
       this.$router.push({
@@ -68,23 +73,22 @@ export default {
       });
     },
     GoToManageCommodity() {
-        this.$router.push({
-            path:"/CommodityManagement"
-        });
+      this.$router.push({
+        path: "/CommodityManagement"
+      });
     },
-    GoToUserInfoEditor(){
-      this.editor=true
+    GoToUserInfoEditor() {
+      this.editor = true;
     },
-    Check(){
-      this.detail=true
+    Check() {
+      this.detail = true;
     },
     close1() {
-      this.editor = false
-     
+      this.editor = false;
     },
     close2() {
-      this.detail = false
-    },
+      this.detail = false;
+    }
   }
 };
 </script>
@@ -110,9 +114,12 @@ export default {
 
 .user-photo {
   display: inline-block;
-  height: 120px;
-  width: 120px;
+  background-position: center;
+  background-size: cover;
+  height: 100px;
+  width: 100px;
   padding: 30px 10px 10px 10px;
+  margin-top: 20px;
   margin-left: 70px;
   margin-right: 20px;
   border-bottom: 2px;
@@ -124,8 +131,8 @@ export default {
   padding: 30px 0;
 }
 
-.Adm{
-    display: flex;
+.Adm {
+  display: flex;
 }
 
 .user-name {
@@ -143,10 +150,9 @@ export default {
   margin-left: 12px;
 }
 
-.exit:hover{
-    cursor: pointer;
+.exit:hover {
+  cursor: pointer;
 }
-
 
 .back {
   font-size: 16px;
@@ -179,7 +185,7 @@ export default {
   height: 80px;
   width: 1px;
   margin-left: 20px;
-  background-color:rgba(128, 128, 128, 0.8);
+  background-color: rgba(128, 128, 128, 0.8);
 }
 
 .unfinishedOrder {
@@ -190,15 +196,15 @@ export default {
   margin-left: 20px;
 }
 
-.income{
+.income {
   font-size: 15px;
   margin-top: 30px;
   font-weight: bold;
   color: rgba(56, 56, 56, 1);
-  margin-left: 20px;    
+  margin-left: 20px;
 }
 
-.btn{
+.btn {
   margin-top: 20px;
   margin-left: 40px;
   height: 40px;
@@ -211,12 +217,11 @@ export default {
   text-align: center;
 }
 
-.btn:hover{
+.btn:hover {
   background-color: black;
   color: white;
   transition-duration: 0.8s;
   cursor: pointer;
-
 }
 
 .list {
@@ -247,22 +252,22 @@ export default {
   flex-grow: 1;
   line-height: 20px;
   font-weight: bold;
-  text-align: left
+  text-align: left;
 }
 
 .number-price {
   flex-grow: 1;
   font-weight: bold;
-  text-align: left
+  text-align: left;
 }
 
-.buyer{
+.buyer {
   flex-grow: 1;
   font-weight: bold;
   text-align: left;
 }
 
-.btn1{
+.btn1 {
   flex-grow: 1;
   font-weight: bold;
   text-align: left;

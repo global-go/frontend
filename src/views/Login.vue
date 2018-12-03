@@ -69,6 +69,10 @@ export default {
             path: "/"
           });
         } else if (result.data.userInfo.type === 'admin') {
+          const data = result.data.userInfo
+          data.token = result.data.token
+          data.unfinishedCount = result.data.unfinishedCount
+          this.$store.commit('login', data)
           this.$router.push({
             path: "/AdminHome"
           });
