@@ -32,13 +32,15 @@
       </div>
       <div class="classify">
         <div class="big-block">分类</div>
-        <div class="small-block">一级选项</div>
-        <div class="small-block">二级选项</div>
-        <div class="small-block">三级选项</div>
+        <div class="small-block">服装</div>
+        <div class="small-block">美妆护肤</div>
+        <div class="small-block">鞋子</div>
+        <div class="small-block">配饰</div>
+        <div class="small-block">其他</div>
       </div>
     </div>
     <div class="right-wrapper">
-      <SearchBar placeholder="这里的东西可以通过参数传进去了" @search="search"></SearchBar>
+      <SearchBar placeholder="搜索商品..." @search="search"></SearchBar>
       <div class="total-commodity">
         <div
           class="commodity"
@@ -65,6 +67,7 @@ import CommodityDetailPanel from "../components/CommodityDetailPanel";
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
 import UploadImg from "../components/UploadImg";
+import urls from "@/apis/urls";
 // import detail from '@/components/DetailPanel.vue'
 
 export default {
@@ -110,33 +113,15 @@ export default {
       return this.$store.state.loginState;
     }
   },
-  mounted() {
+  async mounted() {
     // Suppose that you send request to get commodity info here.
+    const result = await this.axios({
+      method: "get",
+      url: urls.indexInfo,
+    });
+    this.$store.commit('initCommodityList',result.data.commodities)
 
-    // Inject test data.
-    // let commodities = [];
-    // for (let i = 0; i < 100; i++) {
-    //   commodities.push({
-    //     id: i,
-    //     name: `测试商品${i}`,
-    //     price: i * 20,
-    //     stock: 10,
-    //     description: `blablabla....这是第${i}个商品的介绍`,
-    //     images: [
-    //       {
-    //         id: 0,
-    //         url:
-    //           "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
-    //       },
-    //       {
-    //         id: 1,
-    //         url:
-    //           "https://rajio.delbertbeta.cc/d/2acc98d189f225ddfb95926cad24de91/commodity.jpg"
-    //       }
-    //     ]
-    //   });
-    // }
-
+    // this.commodities=result.data.commodities
     // Store data into Vuex
     
   },
@@ -265,7 +250,7 @@ export default {
 
 .grey-frame {
   width: 200px;
-  height: 400px;
+  height: 440px;
   border-radius: 40px;
   margin-left: 25px;
   margin-top: 30px;
@@ -318,7 +303,6 @@ export default {
   height: 2px;
   float: right;
   background-color: rgba(255, 141, 0, 1);
-
 }
 
 .txt {

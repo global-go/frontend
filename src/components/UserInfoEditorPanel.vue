@@ -104,8 +104,8 @@ export default {
         this.$emit("close1");
       }
     },
-    updateAvatar(data) {
-      this.$store.commit("modifyAvatar", {avatar: data});
+    updateAvatar(image) {
+      this.$store.commit("modifyAvatar", {avatar: image.url});
     }
   }
 };

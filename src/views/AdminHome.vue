@@ -2,10 +2,11 @@
   <div class="cart">
     <div class="bar1">
       <img class="logo" src="../assets/logo.png">
-      <div class="form">
+      <SearchBar placeholder="搜索订单..." @search="search"></SearchBar>
+      <!-- <div class="form">
         <input type="text" placeholder="搜索订单...">
         <div class="search"></div>
-      </div>
+      </div> -->
     </div>
     <div class="bar2">
       <img class="user-photo" src="../assets/photo.png">
@@ -43,7 +44,7 @@
         <div class="click-btn">订单详情</div>
       </div>
     </div>
-    <ChangePage style="margin-top:40px"></ChangePage>
+    <ChangePage style="margin-top:40px" :pageCount="pageCount" v-model="page"></ChangePage>
   </div>
 </template>
 
@@ -53,10 +54,35 @@ import ChangePage from "../components/ChangePage";
 
 export default {
   name: "",
+  data() {
+    return {
+      selectedItem: {},
+      page: 1,
+      searchKey: ""
+    };
+  },
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
     },
+    commodities() {
+      return this.$store.state.commodities;
+    },
+    searchDataWrapper() {
+      if (this.searchKey === "") {
+        return this.commodities;
+      } else {
+        return this.commodities.filter(v => {
+          return v.name.indexOf(this.searchKey) !== -1;
+        });
+      }
+    },
+    pageCount() {
+      return Math.ceil(this.searchDataWrapper.length / 4);
+    },
+    thisPage() {
+      return this.searchDataWrapper.slice((this.page - 1) * 4, this.page * 4);
+    }
   },
   components: {
     SearchBar,
@@ -67,11 +93,15 @@ export default {
       this.$router.push({
         path: "/"
       });
+      this.$store.commit("logout");
     },
     GoToManageCommodity() {
       this.$router.push({
         path: "/CommodityManagement"
       });
+    },
+    search(e) {
+      this.searchKey = e;
     }
   }
 };

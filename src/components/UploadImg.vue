@@ -26,8 +26,8 @@ export default {
             method: "post",
             data: formData
           });
-          let data = result.data.image.url
-          this.$emit('returnUrl',data)
+          let image = result.data.image
+          this.$emit('returnUrl',image)
           
         }
       };

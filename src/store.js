@@ -11,10 +11,13 @@ export default new Vuex.Store({
     userInfo: {}
   },
   mutations: {
-    setCommodityList(state, payload) {
-      state.commodities.push(payload)
+    initCommodityList(state, payload) {
+      state.commodities=payload
     },
-    setUserList(state,payload){
+    setCommodityList(state, payload) {
+      state.commodities.splice(0, 0, payload)
+    },
+    setUserList(state, payload) {
       state.users = payload
     },
     login(state, payload) {

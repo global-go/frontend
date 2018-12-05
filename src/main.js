@@ -6,7 +6,7 @@ import axios from 'axios'
 import vueAxios from 'vue-axios'
 
 Vue.config.productionTip = false
-
+// Vue.prototype.$http = axios;
 Vue.use(vueAxios, axios)
 
 new Vue({

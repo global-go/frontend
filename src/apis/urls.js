@@ -6,6 +6,8 @@ export default {
     login: prefix + '/login',
     userModify:id => `${prefix}/user/${id}`,
     upload: prefix + '/images',
-    putway: prefix + '/admin/commodity',
+    putaway: prefix + '/admin/commodity',
+    indexInfo: prefix + '/index/info',
+    commodityModify: id => `${prefix}/admin/commodity/${id}`,
 
 }

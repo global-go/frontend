@@ -6,12 +6,7 @@
         <div class="img_box_bg">
           <div class="img_box">
             <UploadImg @returnUrl="updateCommodity"></UploadImg>
-
             <img class="img" v-for="img in images" :key="img.id" :src="img.url">
-
-            <!-- <div :style="{backgroundImage: `url(${img})`}"></div> -->
-            <!-- <div class="img_text">请上传商品图片</div> -->
-            <!-- <div class="img"></div> -->
           </div>
         </div>
 
@@ -52,7 +47,7 @@
             </div>
           </div>
           <div class="buttons">
-            <div class="button1" @click="added">上架商品</div>
+            <div class="button1" @click="modify">修改商品</div>
           </div>
         </div>
       </div>
@@ -76,18 +71,17 @@
 
 
 <script>
-import NumInput from "../components/NumInput.vue";
+
 import UploadImg from "../components/UploadImg";
 import urls from "@/apis/urls";
 export default {
-  name: "CommodityDetailPanel",
-  components: { NumInput, UploadImg },
-  props: ["goods_id"],
+  name: "CommodityModifyPanel",
+  components: { UploadImg },
+  props: [],
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
     },
-   
   },
   data() {
     return {
@@ -111,7 +105,7 @@ export default {
     close() {
       this.$emit("close");
     },
-    async added() {
+    async modify() {
       if (this.selected === "A") {
         this.category = "服装";
       } else if (this.selected === "B") {

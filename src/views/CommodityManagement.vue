@@ -2,10 +2,11 @@
   <div class="cart">
     <div class="bar1">
       <img class="logo" src="../assets/logo.png">
-      <div class="form">
+      <SearchBar placeholder="搜索商品..." @search="search"></SearchBar>
+      <!-- <div class="form">
         <input type="text" placeholder="搜索订单...">
         <div class="search"></div>
-      </div>
+      </div>-->
     </div>
     <div class="bar2">
       <img class="user-photo" src="../assets/photo.png">
@@ -17,33 +18,36 @@
         </div>
 
         <div class="message">
-          <div class="totalOrder">店内商品数：5</div>
+          <div class="totalOrder">店内商品数：{{commodities.length}}</div>
           <div class="divide-line"></div>
-          <div class="unfinishedOrder">库存不为0的商品数：4</div>
+          <div class="unfinishedOrder">库存不为0的商品数：{{commodities.length}}</div>
           <div class="divide-line"></div>
-          <div class="income">最大可上架商品数：50</div>
+          <div class="income">最大可上架商品数：{{50-commodities.length}}</div>
           <div class="btn" @click="GoToManageCommodity()">上架商品</div>
         </div>
       </div>
     </div>
-    <div class="list" v-for="i in 4" :key="i">
-      <img class="com-photo" src="../assets/commodity.jpg">
-      <div class="com-name">商品名称很长的话就会占两行这样子</div>
+    <div class="list" v-for="item in commodities" :key="item">
+      <img class="com-photo" :src="item.images[0].url">
+      <div class="com-name">{{item.name}}</div>
       <div class="com-price">单价：
-        <br>RMB 180.00
+        <br>
+        RMB {{item.price}}
       </div>
-      <div class="number-price">库存: 2</div>
+      <div class="number-price">库存: {{item.stock}}</div>
       <div class="buyer">描述：
-        <br>商品的概况.....
+        <br>
+        {{item.description}}
       </div>
 
       <div class="btn1">
-        <div class="click-btn">编辑商品</div>
+        <div class="click-btn" @click="GoToModifyCommodity()">编辑商品</div>
         <div class="click-btn">删除商品</div>
       </div>
     </div>
-    <ChangePage style="margin-top:40px"></ChangePage>
-    <CommodityEditorPanel @close="close" v-if="editor==true"></CommodityEditorPanel>
+    <ChangePage style="margin-top:40px" :pageCount="pageCount" v-model="page"></ChangePage>
+    <CommodityEditorPanel @close="close1" v-if="editor==true"></CommodityEditorPanel>
+    <CommodityModifyPanel @close="close2" v-if="modification==true"></CommodityModifyPanel>
   </div>
 </template>
 
@@ -51,22 +55,46 @@
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
 import CommodityEditorPanel from "../components/CommodityEditorPanel";
+import CommodityModifyPanel from "../components/CommodityModifyPanel";
 export default {
   name: "",
   data() {
     return {
-      editor: false
+      editor: false,
+      modification: false,
+      selectedItem: {},
+      page: 1,
+      searchKey: ""
     };
   },
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
     },
+    commodities() {
+      return this.$store.state.commodities;
+    },
+    searchDataWrapper() {
+      if (this.searchKey === "") {
+        return this.commodities;
+      } else {
+        return this.commodities.filter(v => {
+          return v.name.indexOf(this.searchKey) !== -1;
+        });
+      }
+    },
+    pageCount() {
+      return Math.ceil(this.searchDataWrapper.length / 4);
+    },
+    thisPage() {
+      return this.searchDataWrapper.slice((this.page - 1) * 4, this.page * 4);
+    }
   },
   components: {
     SearchBar,
     ChangePage,
-    CommodityEditorPanel
+    CommodityEditorPanel,
+    CommodityModifyPanel
   },
 
   methods: {
@@ -83,11 +111,18 @@ export default {
     GoToManageCommodity() {
       this.editor = true;
     },
-    close() {
+    GoToModifyCommodity() {
+      this.modification = true;
+    },
+    close1() {
       this.editor = false;
     },
-
-
+    close2() {
+      this.modification = false;
+    },
+    search(e) {
+      this.searchKey = e;
+    }
   }
 };
 </script>
@@ -215,14 +250,21 @@ export default {
   flex-shrink: 0;
 }
 .com-name {
-  height: 40px;
-  width: 120px;
-  margin-left: 10px;
   flex-grow: 2;
+  /* height: 40px;
+  width: 100px; */
+  margin-left: 10px;
+  /* flex-grow: 2; */
   font-weight: bold;
   text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  flex-basis: 0%;
 }
 .com-price {
+  margin-left: 20px;
   flex-grow: 1;
   line-height: 20px;
   font-weight: bold;
@@ -234,14 +276,19 @@ export default {
   text-align: left;
 }
 .buyer {
-  flex-grow: 1;
+  flex-grow: 2;
   font-weight: bold;
   text-align: left;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  flex-basis: 0%;
 }
 .btn1 {
   flex-grow: 1;
   font-weight: bold;
-  text-align: left;
+  text-align: center;
 }
 .click-btn:hover {
   color: rgba(255, 195, 0, 1);
