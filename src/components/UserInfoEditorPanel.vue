@@ -4,7 +4,7 @@
     <div class="content">
       <div class="box1">
         <div class="avatar" :style="{backgroundImage: `url(${userInfo.avatar})`}"></div>
-        <UploadImg @returnUrl='updateAvatar'></UploadImg>
+        <UploadImg @returnUrl="updateAvatar"></UploadImg>
       </div>
       <div class="box2">
         <div class="text2">账号：{{userInfo.id}}</div>
@@ -104,8 +104,19 @@ export default {
         this.$emit("close1");
       }
     },
-    updateAvatar(image) {
-      this.$store.commit("modifyAvatar", {avatar: image.url});
+    async updateAvatar(image) {
+      console.log(urls.userModify(this.userInfo.id))
+      const result = await this.axios({
+        method: "put",
+        url: urls.userModify(this.userInfo.id),
+        data: {
+          token: this.userInfo.token,
+          userInfo: {
+            avatar: image.id
+          }
+        }
+      });
+      this.$store.commit("modifyAvatar", { avatar: result.data.user.avatar});
     }
   }
 };

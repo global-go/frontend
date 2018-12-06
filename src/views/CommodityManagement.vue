@@ -13,7 +13,7 @@
       <div class="user-message">
         <div class="Adm">
           <div class="user-name">管理员 {{userInfo.id}}</div>
-          <div class="exit" @click="exit()">退出</div>
+          <!-- <div class="exit" @click="exit()">退出</div> -->
           <div class="back" @click="back()">返回</div>
         </div>
 
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <div class="list" v-for="item in commodities" :key="item">
+    <div class="list" v-for="(item, index) in thisPage" :key="item.id">
       <img class="com-photo" :src="item.images[0].url">
       <div class="com-name">{{item.name}}</div>
       <div class="com-price">单价：
@@ -39,19 +39,24 @@
         <br>
         {{item.description}}
       </div>
-
       <div class="btn1">
-        <div class="click-btn" @click="GoToModifyCommodity()">编辑商品</div>
-        <div class="click-btn">删除商品</div>
+        <div class="click-btn" @click="GoToModifyCommodity(index)">编辑商品</div>
+        <div class="click-btn" @click="deleteCommodity(index)">删除商品</div>
       </div>
     </div>
     <ChangePage style="margin-top:40px" :pageCount="pageCount" v-model="page"></ChangePage>
     <CommodityEditorPanel @close="close1" v-if="editor==true"></CommodityEditorPanel>
-    <CommodityModifyPanel @close="close2" v-if="modification==true"></CommodityModifyPanel>
+    <CommodityModifyPanel
+      @close="close2"
+      v-if="modification==true"
+      :item="selectedItem"
+      :index="selectedIndex"
+    ></CommodityModifyPanel>
   </div>
 </template>
 
 <script>
+import urls from "@/apis/urls";
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
 import CommodityEditorPanel from "../components/CommodityEditorPanel";
@@ -63,6 +68,7 @@ export default {
       editor: false,
       modification: false,
       selectedItem: {},
+      selectedIndex: 0,
       page: 1,
       searchKey: ""
     };
@@ -84,10 +90,10 @@ export default {
       }
     },
     pageCount() {
-      return Math.ceil(this.searchDataWrapper.length / 4);
+      return Math.ceil(this.searchDataWrapper.length / 5);
     },
     thisPage() {
-      return this.searchDataWrapper.slice((this.page - 1) * 4, this.page * 4);
+      return this.searchDataWrapper.slice((this.page - 1) * 5, this.page * 5);
     }
   },
   components: {
@@ -96,7 +102,6 @@ export default {
     CommodityEditorPanel,
     CommodityModifyPanel
   },
-
   methods: {
     exit() {
       this.$router.push({
@@ -111,8 +116,25 @@ export default {
     GoToManageCommodity() {
       this.editor = true;
     },
-    GoToModifyCommodity() {
+    GoToModifyCommodity(index) {
       this.modification = true;
+      this.selectedItem = this.thisPage[index];
+      this.selectedIndex = index;
+      console.log(index);
+      console.log(this.selectedItem.id);
+    },
+    async deleteCommodity(index) {
+      this.selectedItem = this.thisPage[index];
+      const result = await this.axios({
+        method: "delete",
+        url: urls.commodityModify(this.selectedItem.id),
+        params: {
+          token: this.userInfo.token
+        }
+      });
+      this.$store.commit("deleteItem", {
+        index: index
+      });
     },
     close1() {
       this.editor = false;

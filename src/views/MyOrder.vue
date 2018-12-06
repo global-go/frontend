@@ -18,7 +18,7 @@
           <div class="divide-line"></div>
           <div class="unfinishedOrder">未完成订单数：1笔</div>
           <div class="divide-line"></div>
-          <div class="income">钱包余额：{{userInfo.balance.toFixed(2)}}</div>
+          <div class="income">钱包余额：{{parseFloat(userInfo.balance).toFixed(2)}}</div>
           <div class="btn" @click="GoToUserInfoEditor()">编辑个人信息</div>
         </div>
       </div>

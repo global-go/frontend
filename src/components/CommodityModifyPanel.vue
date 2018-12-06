@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="buttons">
-            <div class="button1" @click="modify">修改商品</div>
+            <div class="button1" @click="modify(index)">修改商品</div>
           </div>
         </div>
       </div>
@@ -71,26 +71,25 @@
 
 
 <script>
-
 import UploadImg from "../components/UploadImg";
 import urls from "@/apis/urls";
 export default {
   name: "CommodityModifyPanel",
   components: { UploadImg },
-  props: [],
+  props: ["item","index"],
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
-    },
+    }
   },
   data() {
     return {
-      price: "",
-      images: [],
-      name: "",
-      stock: "",
-      description: "",
-      category: "",
+      price: this.item.price,
+      images: this.item.images,
+      name: this.item.name,
+      stock: this.item.stock,
+      description: this.item.description,
+      category: this.item.category,
       selected: "",
       options: [
         { text: "服装", value: "A" },
@@ -105,7 +104,7 @@ export default {
     close() {
       this.$emit("close");
     },
-    async modify() {
+    async modify(index) {
       if (this.selected === "A") {
         this.category = "服装";
       } else if (this.selected === "B") {
@@ -116,25 +115,14 @@ export default {
         this.category = "鞋子";
       } else if (this.selected === "E") {
         this.category = "其他";
-      } else {
-        alert("没有选择商品类别哦");
-        return;
       }
-
-      if (
-        this.name.trim() === "" ||
-        this.category.trim() === "" ||
-        this.price.trim() === "" ||
-        this.stock.trim() === "" ||
-        this.description.trim() === "" ||
-        this.images.length == 0
-      ) {
-        alert("没有填写完整商品信息哦");
-        return;
-      }
+      // } else {
+      //   alert("没有选择商品类别哦");
+      //   return;
+      // }
       const result = await this.axios({
-        method: "post",
-        url: urls.putaway,
+        method: "put",
+        url: urls.commodityModify(this.item.id),
         data: {
           token: this.userInfo.token,
           name: this.name,
@@ -145,7 +133,10 @@ export default {
           images: this.images.map(v => v.id)
         }
       });
-      this.$store.commit("setCommodityList", result.data.commodity);
+      this.$store.commit("modifyCommodity", {
+        commodity: result.data.commodity,
+        index: index
+      });
       this.close();
     },
     updateCommodity(image) {

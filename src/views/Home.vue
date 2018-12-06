@@ -26,7 +26,7 @@
     <div class="medium-wrapper">
       <div class="sort">
         <div class="big-block">排序</div>
-        <div class="small-block">按更新时间排序</div>
+        <!-- <div class="small-block">按更新时间排序</div> -->
         <div class="small-block">价格从低到高</div>
         <div class="small-block">价格从高到低</div>
       </div>

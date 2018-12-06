@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="list" v-for="i in 4" :key="i">
+    <div class="list" v-for="i in 8" :key="i">
       <img class="com-photo" src="../assets/commodity.jpg">
       <div class="com-name">商品名称很长的话就会占两行这样子</div>
       <div class="com-price">单价：

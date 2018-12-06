@@ -1,45 +1,94 @@
 <template>
-    <div class="cart">
-        <div class="bar1">
-            <img class="logo" src="../assets/logo.png">
-            <div class="back" @click="back()">返回首页</div>
-        </div>
-        <div class="bar2">
-            <img class="user-photo" src="../assets/photo.png">
-            <div class="user-message">
-                <div class="user-name">用户A</div>
-                <div class="message">
-                    <div class="commodity">全部商品：10</div>
-                    <div class="divide-line"></div>
-                    <div class="money">钱包余额：12.00</div>
-                </div>
-            </div>
-        </div>
-        <div class="list" v-for="i in 3" :key="i">
-            <img class="com-photo" src="../assets/commodity.jpg">
-            <div class="com-name">商品名称很长的话就会占两行这样子</div>
-            <div class="com-price">单价：<br/>RMB 180.00</div>
-            <div class="com-number">数量：</div>
-            <div class="total-price">总价：RMB 360.00</div>
-            <div class="btn">
-              <div class="click-btn">删除商品</div>
-              <div class="click-btn">结算</div>
-            </div>
-            
-        </div>
-
+  <div class="cart">
+    <div class="bar1">
+      <img class="logo" src="../assets/logo.png">
+      <div class="back" @click="back()">返回首页</div>
     </div>
+    <div class="bar2">
+      <!-- <img class="user-photo" src="../assets/photo.png"> -->
+      <div class="user-photo" :style="{backgroundImage: `url(${userInfo.avatar})`}"></div>
+      <div class="user-message">
+        <div class="user-name">{{userInfo.nickname}}</div>
+        <div class="message">
+          <div class="commodity">全部商品：{{cart.length}}</div>
+          <div class="divide-line"></div>
+          <div class="money">钱包余额：{{userInfo.balance}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="list" v-for="(item, index) in cart" :key="item">
+      <img class="com-photo" :src="item.images[0].url">
+      <div class="com-name">{{item.name}}</div>
+      <div class="com-price">单价：
+        <br>
+        RMB {{item.price}}
+      </div>
+      <div class="com-number">数量：
+        <num-input
+         @click="changeNumber(index)"
+          style="margin-right:20px"
+          :buy_number="buy_number"
+          v-model="buy_number"
+          :item="item"
+          :index="index"
+        ></num-input>
+      </div>
+      <div class="total-price">总价：RMB {{buy_number*item.price}}</div>
+      <div class="btn">
+        <div class="click-btn">删除商品</div>
+        <div class="click-btn">结算</div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import urls from "@/apis/urls";
+import NumInput from "../components/NumInput.vue";
 export default {
   name: "",
+  data() {
+    return {
+      buy_number: 1
+    };
+  },
+  components: { NumInput },
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+    cart() {
+      return this.$store.state.cart;
+    }
+  },
   methods: {
     back() {
       this.$router.push({
         path: "/"
       });
+    },
+    async changeNumber(index) {
+      const result = await this.axios({
+        method: "put",
+        url: urls.cart(this.userInfo.id),
+        data: {
+          token: this.userInfo.token,
+          commodityID: this.cart[index].id,
+          number: parseInt(this.buy_number)
+        }
+      });
+      
     }
+  },
+  async mounted() {
+    const result = await this.axios({
+      method: "get",
+      url: urls.cart(this.userInfo.id),
+      params: {
+        token: this.userInfo.token
+      }
+    });
+    this.$store.commit("setCartList", result.data.cart);
   }
 };
 </script>
@@ -47,6 +96,7 @@ export default {
 <style scoped>
 .bar1 {
   width: 100%;
+
   display: flex;
   justify-content: space-between;
 }
@@ -79,6 +129,8 @@ export default {
 
 .user-photo {
   display: inline-block;
+  background-position: center;
+  background-size: cover;
   height: 120px;
   width: 120px;
   padding: 30px 10px 10px 10px;
@@ -129,51 +181,48 @@ export default {
 
 .list {
   display: flex;
-  margin:30px 70px 0 70px;
+  margin: 30px 70px 0 70px;
   padding: 15px 0 15px 15px;
   background-color: rgba(229, 229, 229, 0.5);
   align-items: center;
-  justify-content: space-around
+  justify-content: space-around;
 }
 
-.com-photo{
-    height: 85px;
-    width: 85px;
-    flex-shrink: 0;
-
+.com-photo {
+  height: 85px;
+  width: 85px;
+  flex-shrink: 0;
 }
 
-.com-name{
-    height: 40px;
-    width: 120px;
-    margin-left: 10px;
-    flex-grow: 1;
+.com-name {
+  height: 40px;
+  width: 120px;
+  margin-left: 10px;
+  flex-grow: 2;
 }
 
-.com-price{
-flex-grow: 2;
-line-height: 20px;
+.com-price {
+  flex-grow: 1;
+  line-height: 20px;
 }
 
-.com-number{
-flex-grow: 1;
+.com-number {
+  flex-grow: 1;
 }
 
-.total-price{
-flex-grow: 1;
+.total-price {
+  flex-grow: 1;
 }
 
-.btn{
-flex-grow: 1;
-line-height: 25px;
+.btn {
+  flex-grow: 2;
+  line-height: 25px;
 }
 
-.click-btn:hover{
+.click-btn:hover {
   color: rgba(255, 195, 0, 1);
-  transition-duration:0.5s;
+  transition-duration: 0.5s;
   /* border-bottom:1px solid rgba(255, 195, 0, 1); */
   text-decoration: underline;
-
 }
-
 </style>

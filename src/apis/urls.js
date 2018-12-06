@@ -9,5 +9,7 @@ export default {
     putaway: prefix + '/admin/commodity',
     indexInfo: prefix + '/index/info',
     commodityModify: id => `${prefix}/admin/commodity/${id}`,
+    cart: id => `${prefix}/user/${id}/cart/`,
+    
 
 }
