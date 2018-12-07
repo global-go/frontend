@@ -18,11 +18,11 @@
         </div>
 
         <div class="message">
-          <div class="totalOrder">店内商品数：{{commodities.length}}</div>
+          <div class="totalOrder">店内商品数：{{adminCommodities.length}}</div>
           <div class="divide-line"></div>
-          <div class="unfinishedOrder">库存不为0的商品数：{{commodities.length}}</div>
+          <div class="unfinishedOrder">库存不为0的商品数：{{adminCommodities.length}}</div>
           <div class="divide-line"></div>
-          <div class="income">最大可上架商品数：{{50-commodities.length}}</div>
+          <div class="income">最大可上架商品数：{{50-adminCommodities.length}}</div>
           <div class="btn" @click="GoToManageCommodity()">上架商品</div>
         </div>
       </div>
@@ -77,17 +77,18 @@ export default {
     userInfo() {
       return this.$store.state.userInfo;
     },
-    commodities() {
-      return this.$store.state.commodities;
+    adminCommodities() {
+      return this.$store.state.adminCommodities;
     },
     searchDataWrapper() {
       if (this.searchKey === "") {
-        return this.commodities;
-      } else {
-        return this.commodities.filter(v => {
-          return v.name.indexOf(this.searchKey) !== -1;
-        });
-      }
+        return this.adminCommodities.list;
+      } 
+      // else {
+      //   return this.adminCommodities.filter(v => {
+      //     return v.name.indexOf(this.searchKey) !== -1;
+      //   });
+      // }
     },
     pageCount() {
       return Math.ceil(this.searchDataWrapper.length / 5);
@@ -102,6 +103,7 @@ export default {
     CommodityEditorPanel,
     CommodityModifyPanel
   },
+
   methods: {
     exit() {
       this.$router.push({

@@ -25,7 +25,7 @@
       </div>
       <div class="com-number">数量：
         <num-input
-         @click="changeNumber(index)"
+          @click="changeNumber(item)"
           style="margin-right:20px"
           :buy_number="buy_number"
           v-model="buy_number"
@@ -36,7 +36,7 @@
       <div class="total-price">总价：RMB {{buy_number*item.price}}</div>
       <div class="btn">
         <div class="click-btn">删除商品</div>
-        <div class="click-btn">结算</div>
+        <div class="click-btn" @click="placeOrder(item)">结算</div>
       </div>
     </div>
   </div>
@@ -67,17 +67,38 @@ export default {
         path: "/"
       });
     },
-    async changeNumber(index) {
+    async placeOrder(item) {
+      this.$store.commit("setTargetCommodity", {
+        id: item.commodityID,
+        name: item.name,
+        price: item.price,
+        image: item.images[0],
+        number: this.buy_number
+      });
+      this.$router.push({
+        path: "/performOrder"
+      });
       const result = await this.axios({
         method: "put",
         url: urls.cart(this.userInfo.id),
         data: {
           token: this.userInfo.token,
-          commodityID: this.cart[index].id,
+          commodityID: item.commodityID,
+          number: 0
+        }
+      });
+    },
+    //TODO：商品数量变化还有bug
+    async changeNumber(item) {
+      const result = await this.axios({
+        method: "put",
+        url: urls.cart(this.userInfo.id),
+        data: {
+          token: this.userInfo.token,
+          commodityID: item.commodityID,
           number: parseInt(this.buy_number)
         }
       });
-      
     }
   },
   async mounted() {
@@ -222,7 +243,7 @@ export default {
 .click-btn:hover {
   color: rgba(255, 195, 0, 1);
   transition-duration: 0.5s;
-  /* border-bottom:1px solid rgba(255, 195, 0, 1); */
+  cursor: pointer;
   text-decoration: underline;
 }
 </style>

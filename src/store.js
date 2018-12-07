@@ -6,10 +6,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     commodities: [],
+    orders: [],
     cart: [],
     users: [],
     loginState: false,
-    userInfo: {}
+    userInfo: {},
+    targetCommodity: {},
+    adminOrders: {},
+    adminCommodities: {}
   },
   mutations: {
     initCommodityList(state, payload) {
@@ -23,6 +27,15 @@ export default new Vuex.Store({
     },
     setCartList(state, payload) {
       state.cart = payload
+    },
+    setOrderList(state, payload) {
+      state.orders = payload
+    },
+    setAdminCommodityList(state, payload) {
+      state.adminCommodities = payload
+    },
+    setAdminOrderList(state, payload) {
+      state.adminOrders = payload
     },
     login(state, payload) {
       state.loginState = true
@@ -43,6 +56,12 @@ export default new Vuex.Store({
     },
     deleteItem(state, payload) {
       state.commodities.splice(payload.index, 1)
+    },
+    setTargetCommodity(state, payload) {
+      state.targetCommodity = payload
+    },
+    updateBalance(state, payload) {
+      state.userInfo.balance = payload
     }
 
   },

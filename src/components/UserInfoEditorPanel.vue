@@ -9,6 +9,7 @@
       <div class="box2">
         <div class="text2">账号：{{userInfo.id}}</div>
         <div class="text2">
+          <!-- TODO：昵称后面的：不见了 -->
           <div>昵称:</div>
           <input
             placeholder="请输入新昵称..."

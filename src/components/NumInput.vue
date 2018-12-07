@@ -20,7 +20,7 @@ export default {
   props: {"buy_number": Number},
   methods: {
     handleReduce() {
-      if (this.buy_number > 0) {
+      if (this.buy_number > 1) {
         this.$emit("changeCount", this.buy_number - 1);
       }
     },

@@ -6,7 +6,7 @@
       <!-- <div class="form">
         <input type="text" placeholder="搜索订单...">
         <div class="search"></div>
-      </div> -->
+      </div>-->
     </div>
     <div class="bar2">
       <img class="user-photo" src="../assets/photo.png">
@@ -17,18 +17,18 @@
         </div>
 
         <div class="message">
-          <div class="totalOrder">总订单数：3笔</div>
+          <div class="totalOrder">总订单数：{{this.adminOrders.totalCount}}笔</div>
           <div class="divide-line"></div>
-          <div class="unfinishedOrder">未完成的订单数：1笔</div>
+          <div class="unfinishedOrder">未完成的订单数：{{this.adminOrders.unfinishedCount}}笔</div>
           <div class="divide-line"></div>
-          <div class="income">当前累计收入：1000.00</div>
+          <div class="income">当前累计收入：{{this.adminOrders.income}}</div>
           <div class="btn" @click="GoToManageCommodity">管理商品</div>
         </div>
       </div>
     </div>
-    <div class="list" v-for="i in 8" :key="i">
+    <div class="list" v-for="(item, index) in thisPage" :key="item.id">
       <img class="com-photo" src="../assets/commodity.jpg">
-      <div class="com-name">商品名称很长的话就会占两行这样子</div>
+      <div class="com-name">商品</div>
       <div class="com-price">单价：
         <br>RMB 180.00
       </div>
@@ -36,7 +36,7 @@
         <br>总价：RMB 360.00
       </div>
       <div class="buyer">买家账号：001
-        <br>买家昵称：用户A
+        <br>买家昵称：{{item.userInfo.nickname}}
       </div>
 
       <div class="btn1">
@@ -51,7 +51,7 @@
 <script>
 import SearchBar from "../components/SearchBar";
 import ChangePage from "../components/ChangePage";
-
+import urls from "@/apis/urls";
 export default {
   name: "",
   data() {
@@ -65,28 +65,44 @@ export default {
     userInfo() {
       return this.$store.state.userInfo;
     },
-    commodities() {
-      return this.$store.state.commodities;
+    adminOrders() {
+      return this.$store.state.adminOrders;
+    },
+    adminCommodities() {
+      return this.$store.state.adminCommodities;
     },
     searchDataWrapper() {
       if (this.searchKey === "") {
-        return this.commodities;
-      } else {
-        return this.commodities.filter(v => {
-          return v.name.indexOf(this.searchKey) !== -1;
-        });
-      }
+        return this.adminOrders.list;
+      } 
+    //   else {
+    //     return this.adminOrder.filter(v => {
+    //       return v.name.indexOf(this.searchKey) !== -1;
+    //     });
+    //  }
     },
     pageCount() {
-      return Math.ceil(this.searchDataWrapper.length / 4);
+      return Math.ceil(this.searchDataWrapper.length / 5);
     },
     thisPage() {
-      return this.searchDataWrapper.slice((this.page - 1) * 4, this.page * 4);
-    }
+      return this.searchDataWrapper.slice((this.page - 1) * 5, this.page * 5);
+    },
+    
   },
   components: {
     SearchBar,
     ChangePage
+  },
+  async mounted() {
+    const result = await this.axios({
+      method: "post",
+      url: urls.manageInfo,
+      data: {
+        token: this.userInfo.token
+      }
+    });
+    this.$store.commit("setAdminOrderList", result.data.Order);
+    this.$store.commit("setAdminCommodityList", result.data.Commodity);
   },
   methods: {
     back() {

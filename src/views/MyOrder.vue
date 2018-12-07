@@ -14,18 +14,18 @@
         </div>
 
         <div class="message">
-          <div class="totalOrder">总订单数：3笔</div>
+          <div class="totalOrder">总订单数：{{this.orders.length}}笔</div>
           <div class="divide-line"></div>
-          <div class="unfinishedOrder">未完成订单数：1笔</div>
+          <div class="unfinishedOrder">未完成订单数：{{unfinishedOrder}}笔</div>
           <div class="divide-line"></div>
           <div class="income">钱包余额：{{parseFloat(userInfo.balance).toFixed(2)}}</div>
           <div class="btn" @click="GoToUserInfoEditor()">编辑个人信息</div>
         </div>
       </div>
     </div>
-    <div class="list" v-for="i in 3" :key="i">
+    <div class="list" v-for="(item, index) in orders" :key="item">
       <img class="com-photo" src="../assets/commodity.jpg">
-      <div class="com-name">商品名称很长的话就会占两行这样子</div>
+      <div class="com-name">hahhaha</div>
       <div class="com-price">单价：
         <br>RMB 180.00
       </div>
@@ -35,12 +35,13 @@
       </div>
 
       <div class="btn1">
-        <div>等待卖家发货</div>
-        <div class="click-btn" @click="Check()">订单详情</div>
+        <div v-if="item.state==='pending'">等待卖家发货</div>
+        <div v-else>卖家已发货</div>
+        <div class="click-btn" @click="Check(index)">订单详情</div>
       </div>
     </div>
     <UserInfoEditorPanel @close1="close1" v-if="editor==true"></UserInfoEditorPanel>
-    <OrderDetailPanel @close2="close2" v-if="detail===true"></OrderDetailPanel>
+    <OrderDetailPanel @close2="close2" v-if="detail===true" :item="selectedItem"></OrderDetailPanel>
   </div>
 </template>
 
@@ -48,7 +49,7 @@
 import UserInfoEditorPanel from "../components/UserInfoEditorPanel";
 import OrderDetailPanel from "../components/OrderDetailPanel";
 import ChangePage from "../components/ChangePage";
-
+import urls from "@/apis/urls";
 export default {
   name: "",
   components: {
@@ -58,12 +59,32 @@ export default {
   data() {
     return {
       editor: false,
-      detail: false
+      detail: false,
+      selectedItem: {},
+      unfinishedOrder: 0
     };
   },
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
+    },
+    orders() {
+      return this.$store.state.orders;
+    }
+  },
+  async mounted() {
+    const result = await this.axios({
+      method: "get",
+      url: urls.order(this.userInfo.id),
+      params: {
+        token: this.userInfo.token
+      }
+    });
+    this.$store.commit("setOrderList", result.data.orders);
+    for (let i = 0; i < this.orders.length; i++) {
+      if (this.orders[i].state === "pending") {
+        this.unfinishedOrder+=1;
+      }
     }
   },
   methods: {
@@ -80,8 +101,10 @@ export default {
     GoToUserInfoEditor() {
       this.editor = true;
     },
-    Check() {
+    Check(index) {
       this.detail = true;
+      this.selectedItem = this.orders[index];
+      console.log(this.selectedItem);
     },
     close1() {
       this.editor = false;

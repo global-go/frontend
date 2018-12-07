@@ -1,4 +1,4 @@
-<template>
+    <template>
   <div class="wrapper">
     <div class="mask" @click="close"></div>
     <div class="content">
@@ -40,7 +40,7 @@
             ></num-input>
           </div>
           <div class="buttons">
-            <div class="button" @click="buyItNow">
+            <div class="button" @click="placeOrder">
               <img style="width:25px;height:25px;margin:auto" src="../assets/OK.svg">
               立即购买
             </div>
@@ -80,17 +80,20 @@ export default {
   computed: {
     userInfo() {
       return this.$store.state.userInfo;
+    },
+    targetCommodity() {
+      return this.$store.state.targetCommodity;
     }
   },
   methods: {
-    // handleReduce: function() {
-    //   if (this.buy_number > 0) this.buy_number--;
-    // },
-    // handleAdd: function() {
-    //   if (this.inventory > this.buy_number) this.buy_number++;
-    // },
-
-    buyItNow: function() {
+    placeOrder() {
+      this.$store.commit("setTargetCommodity", {
+        id:this.item.id,
+        name: this.item.name,
+        price:this.item.price,
+        image:this.item.images[0],
+        number: this.buy_number
+      });
       this.$router.push({
         path: "/performOrder"
       });
