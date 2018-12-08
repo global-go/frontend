@@ -40,7 +40,7 @@
       <div class="btn1">
         <div v-if="item.state==='pending'">等待卖家发货</div>
         <div v-else>卖家已发货</div>
-        <div class="click-btn" @click="Check(index)">订单详情</div>
+        <div class="click-btn" @click="checkOrder(index)">订单详情</div>
       </div>
     </div>
     <UserInfoEditorPanel @close1="close1" v-if="editor==true"></UserInfoEditorPanel>
@@ -104,7 +104,7 @@ export default {
     GoToUserInfoEditor() {
       this.editor = true;
     },
-    Check(index) {
+    checkOrder(index) {
       this.detail = true;
       this.selectedItem = this.orders[index];
       console.log(this.selectedItem);
