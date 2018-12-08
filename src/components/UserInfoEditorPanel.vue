@@ -9,8 +9,7 @@
       <div class="box2">
         <div class="text2">账号：{{userInfo.id}}</div>
         <div class="text2">
-          <!-- TODO：昵称后面的：不见了 -->
-          <div>昵称:</div>
+          <div>昵称： </div>
           <input
             placeholder="请输入新昵称..."
             v-model="nickname"
@@ -25,7 +24,7 @@
             style="width:150px;height:35px;margin-left:-2%;"
           >
         </div>
-        <div class="text2">账户余额：RMB {{userInfo.balance.toFixed(2)}}</div>
+        <div class="text2">账户余额：￥{{userInfo.balance.toFixed(2)}}</div>
       </div>
       <div class="box3">
         <div class="confirm_modify" @click="modify">
@@ -76,8 +75,7 @@ export default {
             }
           }
         });
-        this.$store.commit("modify", { nickname: result.data.user.nickname });
-        this.$emit("close1");
+        this.$store.commit("modify", { nickname: result.data.user.nickname });    
       } else if (this.password.trim() !== "") {
         const result = await this.axios({
           method: "put",
@@ -88,8 +86,7 @@ export default {
               password: this.password
             }
           }
-        });
-        this.$emit("close1");
+        });      
       } else if (this.nickname.trim() !== "") {
         const result = await this.axios({
           method: "put",
@@ -102,8 +99,8 @@ export default {
           }
         });
         this.$store.commit("modify", { nickname: result.data.user.nickname });
-        this.$emit("close1");
       }
+       this.$emit("close1");
     },
     async updateAvatar(image) {
       console.log(urls.userModify(this.userInfo.id))

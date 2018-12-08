@@ -2,6 +2,7 @@
   <div class="cart">
     <div class="bar1">
       <img class="logo" src="../assets/logo.png">
+      <div class="back" @click="exit()">返回首页</div>
     </div>
     <div class="bar2">
       <div class="user-photo" :style="{backgroundImage: `url(${userInfo.avatar})`}"></div>
@@ -10,28 +11,30 @@
         <div class="Adm">
           <div class="user-name">{{userInfo.nickname}}</div>
           <!-- <div class="exit" @click="exit()">注销</div> -->
-          <div class="back" @click="exit()">返回首页</div>
+          
         </div>
 
         <div class="message">
-          <div class="totalOrder">总订单数：{{this.orders.length}}笔</div>
+          <div v-if="orders.lenght!=0" class="totalOrder">总订单数：{{this.orders.length}}笔</div>
+          <div v-else class="totalOrder">总订单数：0 笔</div>
           <div class="divide-line"></div>
-          <div class="unfinishedOrder">未完成订单数：{{unfinishedOrder}}笔</div>
+          <div class="unfinishedOrder">未完成订单数：{{userInfo.unfinishedCount}}笔</div>
           <div class="divide-line"></div>
-          <div class="income">钱包余额：{{parseFloat(userInfo.balance).toFixed(2)}}</div>
+          <div class="income">钱包余额：￥{{parseFloat(userInfo.balance).toFixed(2)}}</div>
           <div class="btn" @click="GoToUserInfoEditor()">编辑个人信息</div>
         </div>
       </div>
     </div>
-    <div class="list" v-for="(item, index) in orders" :key="item">
-      <img class="com-photo" src="../assets/commodity.jpg">
-      <div class="com-name">hahhaha</div>
+    <div v-if="orders.lenght!=0" class="list" v-for="(item, index) in orders" :key="item">
+      <!-- <img class="com-photo" src="../assets/commodity.jpg"> -->
+      <img class="com-photo" :src="item.commodities[0].images[0].url">
+      <div class="com-name">{{item.commodities[0].name}}</div>
       <div class="com-price">单价：
-        <br>RMB 180.00
+        ￥{{item.commodities[0].price}}
       </div>
-      <div class="number-price">数量: 2</div>
+      <div class="number-price">数量: {{item.commodities[0].number}}</div>
       <div class="buyer">总价：
-        <br>RMB 360.00
+        ￥{{item.commodities[0].transactionValue}}
       </div>
 
       <div class="btn1">
@@ -83,7 +86,7 @@ export default {
     this.$store.commit("setOrderList", result.data.orders);
     for (let i = 0; i < this.orders.length; i++) {
       if (this.orders[i].state === "pending") {
-        this.unfinishedOrder+=1;
+        this.unfinishedOrder += 1;
       }
     }
   },
@@ -178,10 +181,10 @@ export default {
 }
 
 .back {
-  font-size: 16px;
+  font-size: 24px;
   font-weight: bold;
-  margin-left: 415px;
-  margin-top: 5px;
+  margin-right: 50px;
+  margin-top: 50px;
   color: rgba(80, 80, 80, 1);
 }
 

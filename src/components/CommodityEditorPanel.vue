@@ -24,7 +24,7 @@
           <div class="v_line"></div>
           <div class="text_box">
             <div class="text1">
-              售价：RMB
+              售价：￥
               <input
                 v-model="price"
                 placeholder="请输入商品价格"

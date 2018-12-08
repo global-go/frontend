@@ -18,11 +18,11 @@
         </div>
 
         <div class="message">
-          <div class="totalOrder">店内商品数：{{adminCommodities.length}}</div>
+          <div class="totalOrder">店内商品数：{{adminCommodities.totalCount}}</div>
           <div class="divide-line"></div>
-          <div class="unfinishedOrder">库存不为0的商品数：{{adminCommodities.length}}</div>
+          <div class="unfinishedOrder">库存不为0的商品数：{{adminCommodities.notSoldOutCount}}</div>
           <div class="divide-line"></div>
-          <div class="income">最大可上架商品数：{{50-adminCommodities.length}}</div>
+          <div class="income">最大可上架商品数：{{adminCommodities.maxCount}}</div>
           <div class="btn" @click="GoToManageCommodity()">上架商品</div>
         </div>
       </div>

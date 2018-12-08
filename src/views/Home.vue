@@ -9,15 +9,16 @@
       <div v-else>
         <div class="grey-frame">
           <div class="fir">
-            <div class="welcome">欢迎回来，{{userInfo.nickname}}！</div>
+            <div class="welcome">欢迎回来，
+              <br>{{userInfo.nickname}}！</div>
             <div class="exit" @click="exit()">注销</div>
           </div>
           <div class="line1"></div>
           <div class="pic" :style="{backgroundImage: `url(${userInfo.avatar})`}"></div>
           <!-- <img class="pic" :src="userInfo.avatar"> -->
           <div class="line2"></div>
-          <div class="txt">未完成的订单数：1笔</div>
-          <div class="txt">钱包余额：{{userInfo.balance.toFixed(2)}}</div>
+          <div class="txt">未完成的订单数：{{userInfo.unfinishedCount}}笔</div>
+          <div class="txt">钱包余额：￥{{parseFloat(userInfo.balance).toFixed(2)}}</div>
           <div class="btn" @click="goToMyOrder()">我的信息</div>
           <div class="btn" @click="goToCart()">购物车</div>
         </div>
@@ -27,16 +28,17 @@
       <div class="sort">
         <div class="big-block">排序</div>
         <!-- <div class="small-block">按更新时间排序</div> -->
-        <div class="small-block">价格从低到高</div>
-        <div class="small-block">价格从高到低</div>
+        <div class="small-block" @click="upPrice">价格从低到高</div>
+        <div class="small-block" @click="downPrice">价格从高到低</div>
       </div>
       <div class="classify">
         <div class="big-block">分类</div>
-        <div class="small-block">服装</div>
-        <div class="small-block">美妆护肤</div>
-        <div class="small-block">鞋子</div>
-        <div class="small-block">配饰</div>
-        <div class="small-block">其他</div>
+        <div class="small-block" @click="packAll">全部商品</div>
+        <div class="small-block" @click="packClothing">服装</div>
+        <div class="small-block" @click="packBeauty">美妆护肤</div>
+        <div class="small-block" @click="packShoes">鞋子</div>
+        <div class="small-block" @click="packACC">配饰</div>
+        <div class="small-block" @click="packOthers">其他</div>
       </div>
     </div>
     <div class="right-wrapper">
@@ -94,6 +96,34 @@ export default {
     searchDataWrapper() {
       if (this.searchKey === "") {
         return this.commodities;
+      } else if (this.searchKey === "服装") {
+        return this.commodities.filter(v => {
+          return v.category === this.searchKey;
+        });
+      } else if (this.searchKey === "美妆护肤") {
+        return this.commodities.filter(v => {
+          return v.category === this.searchKey;
+        });
+      } else if (this.searchKey === "鞋子") {
+        return this.commodities.filter(v => {
+          return v.category === this.searchKey;
+        });
+      } else if (this.searchKey === "配饰") {
+        return this.commodities.filter(v => {
+          return v.category === this.searchKey;
+        });
+      } else if (this.searchKey === "其他") {
+        return this.commodities.filter(v => {
+          return v.category === this.searchKey;
+        });
+      } else if (this.searchKey === "up") {
+        return this.commodities.sort(function(a,b) {
+          return a.price - b.price;
+        });
+      } else if (this.searchKey === "down") {
+        return this.commodities.sort(function(a,b) {
+          return b.price - a.price;
+        });
       } else {
         return this.commodities.filter(v => {
           return v.name.indexOf(this.searchKey) !== -1;
@@ -117,13 +147,12 @@ export default {
     // Suppose that you send request to get commodity info here.
     const result = await this.axios({
       method: "get",
-      url: urls.indexInfo,
+      url: urls.indexInfo
     });
-    this.$store.commit('initCommodityList',result.data.commodities)
+    this.$store.commit("initCommodityList", result.data.commodities);
 
     // this.commodities=result.data.commodities
     // Store data into Vuex
-    
   },
   methods: {
     exit() {
@@ -158,6 +187,30 @@ export default {
     },
     search(e) {
       this.searchKey = e;
+    },
+    packAll() {
+      this.searchKey = ""
+    },
+    packClothing() {
+      this.searchKey = "服装";
+    },
+    packBeauty() {
+      this.searchKey = "美妆护肤";
+    },
+    packShoes() {
+      this.searchKey = "鞋子";
+    },
+    packACC() {
+      this.searchKey = "配饰";
+    },
+    packOthers() {
+      this.searchKey = "其他";
+    },
+    upPrice() {
+      this.searchKey = "up";
+    },
+    downPrice() {
+      this.searchKey = "down";
     }
   }
 };
@@ -265,15 +318,18 @@ export default {
 .welcome {
   font-size: 16px;
   font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 20px;
-  margin-left: 15px;
 }
 
 .exit {
-  font-size: 10px;
+  font-size: 12px;
   color: rgba(255, 141, 0, 1);
   text-decoration: underline;
-  margin-top: 26px;
+  margin-top: 45px;
+  margin-right: 8px;
+  flex-shrink: 0
 }
 
 .exit:hover {
@@ -358,7 +414,7 @@ input {
 }
 
 .sort {
-  margin-top: 200px;
+  margin-top: 100px;
   width: 100%;
   height: 250;
 }

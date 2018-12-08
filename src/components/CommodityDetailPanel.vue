@@ -284,6 +284,7 @@ export default {
   background-color: black;
   transition-duration: 0.8s;
   color: #ffc300;
+  cursor: pointer;
 }
 .text2 {
   width: 100%;

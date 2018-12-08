@@ -4,7 +4,7 @@
       <div class="content">
          <div class="yellow-line"></div>
          <div class="name">{{ item.name }}</div>
-         <div class="price">RMB {{ item.price.toFixed(2) }}</div>
+         <div class="price">￥ {{ item.price.toFixed(2) }}</div>
          <!--<img @ class="cart" src="../assets/shopping-cart.svg">-->
       </div>
     </div>

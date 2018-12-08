@@ -12,16 +12,16 @@
         <div class="message">
           <div class="commodity">全部商品：{{cart.length}}</div>
           <div class="divide-line"></div>
-          <div class="money">钱包余额：{{userInfo.balance}}</div>
+          <div class="money">钱包余额：￥{{parseFloat(userInfo.balance).toFixed(2)}}</div>
         </div>
       </div>
     </div>
     <div class="list" v-for="(item, index) in cart" :key="item">
       <img class="com-photo" :src="item.images[0].url">
       <div class="com-name">{{item.name}}</div>
-      <div class="com-price">单价：
-        <br>
-        RMB {{item.price}}
+      <div class="com-price">
+        单价：
+        ￥{{item.price}}
       </div>
       <div class="com-number">数量：
         <num-input
@@ -33,9 +33,9 @@
           :index="index"
         ></num-input>
       </div>
-      <div class="total-price">总价：RMB {{buy_number*item.price}}</div>
+      <div class="total-price">总价：￥{{buy_number*item.price}}</div>
       <div class="btn">
-        <div class="click-btn">删除商品</div>
+        <div class="click-btn" @click="deleteCommodity(index)">删除商品</div>
         <div class="click-btn" @click="placeOrder(item)">结算</div>
       </div>
     </div>
@@ -99,6 +99,18 @@ export default {
           number: parseInt(this.buy_number)
         }
       });
+    },
+    async deleteCommodity(index) {
+      const result = await this.axios({
+        method: "put",
+        url: urls.cart(this.userInfo.id),
+        data: {
+          token: this.userInfo.token,
+          commodityID: this.cart[index].commodityID,
+          number: 0
+        }
+      });
+      this.$store.commit("deleteCommodityInCart", { index: index, number: 0 });
     }
   },
   async mounted() {
@@ -117,7 +129,6 @@ export default {
 <style scoped>
 .bar1 {
   width: 100%;
-
   display: flex;
   justify-content: space-between;
 }
@@ -132,7 +143,7 @@ export default {
 .back {
   font-size: 24px;
   font-weight: bold;
-  margin-right: 30px;
+  margin-right: 50px;
   margin-top: 50px;
   color: rgba(80, 80, 80, 1);
 }
@@ -220,23 +231,28 @@ export default {
   width: 120px;
   margin-left: 10px;
   flex-grow: 2;
+  font-weight: bold;
 }
 
 .com-price {
   flex-grow: 1;
   line-height: 20px;
+  font-weight: bold;
 }
 
 .com-number {
   flex-grow: 1;
+  font-weight: bold;
 }
 
 .total-price {
   flex-grow: 1;
+  font-weight: bold;
 }
 
 .btn {
   flex-grow: 2;
+  font-weight: bold;
   line-height: 25px;
 }
 

@@ -26,17 +26,17 @@
         </div>
       </div>
     </div>
-    <div class="list" v-for="(item, index) in thisPage" :key="item.id">
+    <div class="list" v-for="(item, index) in thisPage" :key="item">
       <img class="com-photo" src="../assets/commodity.jpg">
-      <div class="com-name">商品</div>
+      <div class="com-name">{{item.commodity.name}}</div>
       <div class="com-price">单价：
-        <br>RMB 180.00
+        <br>￥ {{item,commodity.price}}
       </div>
-      <div class="number-price">数量：2
-        <br>总价：RMB 360.00
+      <div class="number-price">数量：{{item.order.commodityList[0].number}}
+        <br>总价：￥ {{item.order.commodityList[0].transactionValue}}
       </div>
-      <div class="buyer">买家账号：001
-        <br>买家昵称：{{item.userInfo.nickname}}
+      <div class="buyer">买家账号：{{item.order.userInfo.id}}
+        <br>买家昵称：{{item.order.userInfo.nickname}}
       </div>
 
       <div class="btn1">
@@ -68,18 +68,28 @@ export default {
     adminOrders() {
       return this.$store.state.adminOrders;
     },
+    //TODO:啊list数组然后返回的是对象？
+    orderWithCommodity() {
+      return this.adminOrders.list.map(v => {
+        return {
+          order: v,
+          commodity: this.adminCommodities.list.filter(i => i.id == v.commodityList.commodityID)
+        }
+      })
+
+    },
     adminCommodities() {
       return this.$store.state.adminCommodities;
     },
     searchDataWrapper() {
       if (this.searchKey === "") {
-        return this.adminOrders.list;
+        return this.orderWithCommodity;
       } 
-    //   else {
-    //     return this.adminOrder.filter(v => {
-    //       return v.name.indexOf(this.searchKey) !== -1;
-    //     });
-    //  }
+      else {
+        return this.adminOrder.list.filter(v => {
+          return v.order.id.indexOf(this.searchKey) !== -1;
+        });
+     }
     },
     pageCount() {
       return Math.ceil(this.searchDataWrapper.length / 5);

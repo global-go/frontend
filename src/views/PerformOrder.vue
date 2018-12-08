@@ -62,7 +62,7 @@
           <h2 style="color:#505050;font-size:25px;margin-left:5%;">单价：</h2>
           <h2
             style="color:#505050;font-size:25px;margin-left:-28%;margin-top:25%;"
-          >RMB {{this.targetCommodity.price}}</h2>
+          >￥ {{this.targetCommodity.price}}</h2>
         </div>
         <div class="box">
           <h2 style="color:#505050;font-size:25px;margin-left:5%;">数量：</h2>
@@ -72,7 +72,7 @@
           <h2 style="color:#505050;font-size:25px;margin-left:5%;">总价：</h2>
           <h2
             style="color:#505050;font-size:25px;margin-left:-28%;margin-top:25%;"
-          >RMB {{this.targetCommodity.price}}</h2>
+          >￥ {{this.targetCommodity.price}}</h2>
         </div>
       </div>
 

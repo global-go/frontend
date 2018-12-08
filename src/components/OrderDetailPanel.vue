@@ -13,12 +13,12 @@
         <div class="text">联系电话：{{item.contact}}</div>
       </div>
       <div class="box">
-        <div class="text">商品编号：{{item.commodities.commodityID}}</div>
-        <div class="text">商品数量：{{item.commodities.number}}</div>
-        <div class="text">商品售价：RMB 180.00</div>
+        <div class="text">商品编号：{{item.commodities[0].commodityID}}</div>
+        <div class="text">商品数量：{{item.commodities[0].number}}</div>
+        <div class="text">商品售价：￥ {{item.commodities[0].price}}</div>
       </div>
       <div class="box">
-        <div class="text">销售总价格：RMB 360.00</div>
+        <div class="text">销售总价格：￥ {{item.commodities[0].transactionValue}}</div>
       </div>
     </div>
   </div>

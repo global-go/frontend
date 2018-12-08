@@ -28,6 +28,9 @@ export default new Vuex.Store({
     setCartList(state, payload) {
       state.cart = payload
     },
+    deleteCommodityInCart(state, payload) {
+      state.cart.splice(payload.index, 1)
+    },
     setOrderList(state, payload) {
       state.orders = payload
     },
