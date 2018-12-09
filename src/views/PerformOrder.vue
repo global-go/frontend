@@ -66,13 +66,17 @@
         </div>
         <div class="box">
           <h2 style="color:#505050;font-size:25px;margin-left:5%;">数量：</h2>
-          <NumInput style="margin-top:25%;margin-left:-26%;"></NumInput>
+          <NumInput
+            :buy_number="targetCommodity.number"
+            @changed="changeCount"
+            style="margin-top:25%;margin-left:-26%;"
+          ></NumInput>
         </div>
         <div class="box">
           <h2 style="color:#505050;font-size:25px;margin-left:5%;">总价：</h2>
           <h2
             style="color:#505050;font-size:25px;margin-left:-28%;margin-top:25%;"
-          >￥ {{this.targetCommodity.price}}</h2>
+          >￥ {{targetCommodity.number * targetCommodity.price}}</h2>
         </div>
       </div>
 
@@ -108,27 +112,34 @@ export default {
     };
   },
   methods: {
+    changeCount(e) {
+      this.$store.commit("changeTargetCount", e.number);
+    },
     async placeOrder() {
-      const result = await this.axios({
-        method: "post",
-        url: urls.order(this.userInfo.id),
-        data: {
-          token: this.userInfo.token,
-          address: this.address,
-          addressee: this.addressee,
-          contact: this.contact,
-          order: [
-            {
-              commodityID: this.targetCommodity.id,
-              number: this.targetCommodity.number
-            }
-          ]
+      if (this.message !== "订单提交成功") {
+        const result = await this.axios({
+          method: "post",
+          url: urls.order(this.userInfo.id),
+          data: {
+            token: this.userInfo.token,
+            address: this.address,
+            addressee: this.addressee,
+            contact: this.contact,
+            order: [
+              {
+                commodityID: this.targetCommodity.id,
+                number: this.targetCommodity.number
+              }
+            ]
+          }
+        });
+        if (result.data.code === -1) {
+          alert(result.data.errMessage)
+        } else {
+          this.$store.commit("updateBalance", this.userInfo.balance - (this.targetCommodity.price * this.targetCommodity.number));
+          this.message = "订单提交成功";
         }
-      });
-      this.userInfo.balance -=
-        this.targetCommodity.price * this.targetCommodity.number;
-      this.$store.commit("updateBalance", this.userInfo.balance);
-      this.message = "订单提交成功";
+      }
     },
     returnHome() {
       this.$router.push({

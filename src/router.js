@@ -12,7 +12,7 @@ import MyOrder from './views/MyOrder.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   routes: [
     {
       path: '/',
@@ -56,3 +56,17 @@ export default new Router({
     },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/' || to.path === '/login' || to.path === '/register') {
+    next()
+  } else {
+    if (localStorage['loginToken'] === '') {
+      next('/')
+    } else {
+      next()
+    }
+  }
+})
+
+export default router

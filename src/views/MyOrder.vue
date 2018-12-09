@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <div v-if="orders.lenght!=0" class="list" v-for="(item, index) in orders" :key="item">
+    <div v-if="orders.lenght!=0" class="list" v-for="(item, index) in orders" :key="item.id">
       <!-- <img class="com-photo" src="../assets/commodity.jpg"> -->
       <img class="com-photo" :src="item.commodities[0].images[0].url">
       <div class="com-name">{{item.commodities[0].name}}</div>
@@ -89,6 +89,7 @@ export default {
         this.unfinishedOrder += 1;
       }
     }
+    this.$store.commit('updateUnfinishedCount', this.unfinishedOrder)
   },
   methods: {
     exit() {
@@ -142,11 +143,12 @@ export default {
   display: inline-block;
   background-position: center;
   background-size: cover;
-  height: 100px;
-  width: 100px;
-  padding: 30px 10px 10px 10px;
+  flex-shrink: 0;
+  height: 120px;
+  width: 120px;
+  /* padding: 30px 10px 10px 10px; */
   margin-top: 20px;
-  margin-left: 70px;
+  margin-left: 50px;
   margin-right: 20px;
   border-bottom: 2px;
   border-bottom-style: solid;

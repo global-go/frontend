@@ -17,15 +17,25 @@ export default {
     prop: "buy_number",
     event: "changeCount"
   },
-  props: {"buy_number": Number},
+  props: { buy_number: Number, index: Number },
   methods: {
     handleReduce() {
       if (this.buy_number > 1) {
-        this.$emit("changeCount", this.buy_number - 1);
+        const data = this.buy_number - 1
+        this.$emit("changeCount", data);
+        this.$emit("changed", {
+          number: data,
+          index: this.index
+        });
       }
     },
     handleAdd() {
-      this.$emit("changeCount", this.buy_number + 1);
+        const data = this.buy_number + 1
+        this.$emit("changeCount", data);
+        this.$emit("changed", {
+          number: data,
+          index: this.index
+        });
     }
   },
   data() {

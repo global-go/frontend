@@ -1,12 +1,26 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
     <router-view/>
   </div>
 </template>
+
+<script>
+import moment from 'moment'
+
+export default {
+  mounted() {
+    const loginToken = localStorage['loginToken']
+    if (loginToken) {
+      const loginObj = JSON.parse(loginToken)
+      if (!moment(loginObj.loginTime).add(12, 'hour').isBefore(moment())) {
+        this.$store.commit('restoreLogin', loginObj)
+      } else {
+        localStorage['loginToken'] = ''
+      }
+    }
+  }
+}
+</script>
 
 <style>
 body {

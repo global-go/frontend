@@ -1,31 +1,31 @@
 <template>
-    <div class="container">
-      <div class="picture" :style="{ backgroundImage: `url(${item.images[0].url})` }"></div>
-      <div class="content">
-         <div class="yellow-line"></div>
-         <div class="name">{{ item.name }}</div>
-         <div class="price">￥ {{ item.price.toFixed(2) }}</div>
-         <!--<img @ class="cart" src="../assets/shopping-cart.svg">-->
-      </div>
+  <div class="container">
+    <div class="picture" :style="{ backgroundImage: `url(${item.images[0].url})` }"></div>
+    <div class="content">
+      <div class="yellow-line"></div>
+      <div class="name">{{ item.name }}</div>
+      <div class="price">￥ {{ item.price.toFixed(2) }}</div>
+      <!--<img @ class="cart" src="../assets/shopping-cart.svg">-->
     </div>
-
+  </div>
 </template>
 
 <script>
-
 export default {
   name: "commodityItem",
-  props: ['item']
-}; 
+  props: ["item"]
+};
 </script> 
 
 <style scoped>
 .container {
   width: 300px;
-  height: 500px;
-  top: 200px;
+  height: 400px;
+  /* top: 200px; */
   text-align: center;
   float: right;
+  margin-bottom: 32px;
+  color: black;
 }
 
 .picture {
@@ -37,18 +37,18 @@ export default {
 }
 
 .content {
-  font-size: 27px;
+  font-size: 22px;
   width: 300px;
   height: 100px;
-  color:black;
-   overflow: hidden;
+  color: inherit;
+  overflow: hidden;
   /* line-height: 10%; */
 }
 
-.content:hover{
+.container:hover {
   background-color: black;
   color: white;
-  transition-duration:0.8s;
+  transition-duration: 0.8s;
 }
 .yellow-line {
   background: rgba(255, 195, 0, 1);
@@ -59,7 +59,6 @@ export default {
 
   /* padding-top: 10px; */
   /* z-index: 2; */
-  
 }
 
 .name {
@@ -67,7 +66,8 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 35px;
+  height: 32px;
+  margin-top: 6px;
   letter-spacing: 2px;
   text-align: left;
 }
@@ -81,5 +81,23 @@ export default {
   margin-top: 4px;
 }
 
+@media (max-width: 1400px) {
+  .container {
+    width: 200px;
+    height: 300px;
+  }
 
+  .picture {
+    width: 200px;
+    height: 200px;
+  }
+
+  .name {
+    width: 200px;
+  }
+
+  .yellow-line {
+    width: 90px;
+  }
+}
 </style>

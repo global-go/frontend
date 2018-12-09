@@ -1,19 +1,19 @@
-    <template>
+<template>
   <div class="wrapper">
     <div class="mask" @click="close"></div>
     <div class="content">
       <div class="img_detail">
         <div class="img">
           <div class="goods_img">
-            <img :src="item.images[0].url" style="width: 600px;height: 600px;">
+            <img :src="selectedImage" style="width: 400px;height: 400px;">
           </div>
           <div class="four_imgs_box">
             <div>
-              <img src="../assets/left2.svg" style=" width:50px; height:150px;">
+              <img src="../assets/left2.svg" style=" width:30px; height:70px;">
             </div>
             <div class="four_imgs">
               <div v-for="(image, index) in item.images" :key="index">
-                <img :src="image.url" style="width:125px;height:125px;">
+                <img :src="image.url" style="width:95px;height:95px;cursor: pointer" @click="switchImage(index)">
               </div>
             </div>
             <div>
@@ -74,7 +74,8 @@ export default {
   props: ["item"],
   data() {
     return {
-      buy_number: 1
+      buy_number: 1,
+      selectedImage: this.item.images[0].url
     };
   },
   computed: {
@@ -86,6 +87,9 @@ export default {
     }
   },
   methods: {
+    switchImage(index) {
+      this.selectedImage = this.item.images[index].url
+    },
     placeOrder() {
       this.$store.commit("setTargetCommodity", {
         id:this.item.id,
@@ -158,7 +162,7 @@ export default {
   overflow-y: auto;
   right: 0px;
   top: 0px;
-  width: 80vw;
+  width: 1100px;
   height: 100vh;
   background-color: white;
   animation: slideIn 0.5s ease 1 backwards;
@@ -176,8 +180,8 @@ export default {
 }
 .four_imgs_box {
   background-color: #ffc300;
-  width: 655px;
-  height: 160px;
+  width: 500px;
+  height: 140px;
   margin-left: 2%;
   margin-top: 2%;
   display: flex;
@@ -186,7 +190,7 @@ export default {
 }
 .four_imgs {
   width: 560px;
-  height: 150px;
+  height: 120px;
   background-color: white;
   display: flex;
   justify-content: space-around;
@@ -231,18 +235,19 @@ export default {
 .text1 {
   margin-top: 2%;
   color: #505050;
-  font-size: 25px;
+  font-size: 18px;
 }
 .price {
-  font-size: 50px;
+  font-size: 36px;
   color: #ff8d1a;
   font-weight: 700;
-  margin-left: 15%;
+  /* margin-left: 15%; */
+  text-align: center;
 }
 .name {
   margin-left: 10%;
   width: 450px;
-  font-size: 45px;
+  font-size: 30px;
   font-weight: bold;
   margin-top: -90%;
   display: -webkit-box;
@@ -294,11 +299,13 @@ export default {
   height: 70px;
   background-color: #e5e5e5;
   margin-left: 70%;
-  margin-top: -5%;
+  margin-top: -2%;
   border-radius: 20px 20px 0 0;
 }
 .paragraph {
+  padding: 32px;
   width: 100%;
+  box-sizing: border-box;
   background-color: #e5e5e5;
   margin-top: -1.3%;
 }

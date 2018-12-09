@@ -95,14 +95,14 @@ export default {
 .box {
   background-color: #e5e5e5;
   width: 93%;
-  height: 35vh;
+  height: 30vh;
   margin-left: 7%;
   margin-top: 8%;
   text-align: left;
   padding-top: 1%;
 }
 .text {
-  font-size: 30px;
+  font-size: 22px;
   font-weight: bold;
   color: #505050;
   margin-top: 5%;

@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="list" v-for="(item, index) in cart" :key="item">
+    <div class="list" v-for="(item, index) in cart" :key="item.id">
       <img class="com-photo" :src="item.images[0].url">
       <div class="com-name">{{item.name}}</div>
       <div class="com-price">
@@ -25,15 +25,13 @@
       </div>
       <div class="com-number">数量：
         <num-input
-          @click="changeNumber(item)"
           style="margin-right:20px"
-          :buy_number="buy_number"
-          v-model="buy_number"
-          :item="item"
+          v-model="item.number"
+          @changed="changeNumber"
           :index="index"
         ></num-input>
       </div>
-      <div class="total-price">总价：￥{{buy_number*item.price}}</div>
+      <div class="total-price">总价：￥{{item.number*item.price}}</div>
       <div class="btn">
         <div class="click-btn" @click="deleteCommodity(index)">删除商品</div>
         <div class="click-btn" @click="placeOrder(item)">结算</div>
@@ -73,7 +71,7 @@ export default {
         name: item.name,
         price: item.price,
         image: item.images[0],
-        number: this.buy_number
+        number: item.number
       });
       this.$router.push({
         path: "/performOrder"
@@ -88,15 +86,15 @@ export default {
         }
       });
     },
-    //TODO：商品数量变化还有bug
+    //Fixed：商品数量变化还有bug
     async changeNumber(item) {
       const result = await this.axios({
         method: "put",
         url: urls.cart(this.userInfo.id),
         data: {
           token: this.userInfo.token,
-          commodityID: item.commodityID,
-          number: parseInt(this.buy_number)
+          commodityID: this.cart[item.index].commodityID,
+          number: item.number
         }
       });
     },

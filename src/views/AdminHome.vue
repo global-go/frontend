@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="list" v-for="(item, index) in thisPage" :key="item">
+    <div class="list" v-for="item in thisPage" :key="item.id">
       <!-- TODO:添加订单商品的图片，单价和名字 -->
       <img class="com-photo" src="../assets/commodity.jpg">
       <div class="com-name">balala</div>
@@ -118,6 +118,7 @@ export default {
     this.$store.commit("setAdminOrderList", result.data.Order);
     this.$store.commit("setAdminCommodityList", result.data.Commodity);
   },
+  
   methods: {
     back() {
       this.$router.push({
