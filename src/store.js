@@ -84,6 +84,9 @@ export default new Vuex.Store({
     updateUnfinishedCount(state, payload) {
       state.userInfo.unfinishedCount = payload
       localStorage['loginToken'] = JSON.stringify(state.userInfo)
+    },
+    changeOrderState(state, payload) {
+      Vue.set(state.adminOrders.list[payload.index], 'state', payload.value)
     }
 
   },

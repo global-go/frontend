@@ -8,7 +8,7 @@
 import moment from 'moment'
 
 export default {
-  mounted() {
+  beforeMount() {
     const loginToken = localStorage['loginToken']
     if (loginToken) {
       const loginObj = JSON.parse(loginToken)

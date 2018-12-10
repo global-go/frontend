@@ -11,6 +11,6 @@ export default {
     commodityModify: id => `${prefix}/admin/commodity/${id}`,
     cart: id => `${prefix}/user/${id}/cart/`,
     order: id => `${prefix}/user/${id}/order/`,
-    manageInfo: prefix + '/admin/info'
-
+    manageInfo: prefix + '/admin/info',
+    changeOrderState: id => `${prefix}/admin/order/${id}`
 }
