@@ -71,20 +71,12 @@ export default {
         name: item.name,
         price: item.price,
         image: item.images[0],
-        number: item.number
+        number: item.number,
+        fromCart: true
       });
       this.$router.push({
         path: "/performOrder"
-      });
-      const result = await this.axios({
-        method: "put",
-        url: urls.cart(this.userInfo.id),
-        data: {
-          token: this.userInfo.token,
-          commodityID: item.commodityID,
-          number: 0
-        }
-      });
+      })
     },
     //Fixed：商品数量变化还有bug
     async changeNumber(item) {

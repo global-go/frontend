@@ -134,9 +134,24 @@ export default {
           }
         });
         if (result.data.code === -1) {
-          alert(result.data.errMessage)
+          alert(result.data.errMessage);
         } else {
-          this.$store.commit("updateBalance", this.userInfo.balance - (this.targetCommodity.price * this.targetCommodity.number));
+          if (this.targetCommodity.fromCart) {
+            const result = await this.axios({
+              method: "put",
+              url: urls.cart(this.userInfo.id),
+              data: {
+                token: this.userInfo.token,
+                commodityID: this.targetCommodity.id,
+                number: 0
+              }
+            });
+          }
+          this.$store.commit(
+            "updateBalance",
+            this.userInfo.balance -
+              this.targetCommodity.price * this.targetCommodity.number
+          );
           this.message = "订单提交成功";
         }
       }

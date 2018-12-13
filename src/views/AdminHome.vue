@@ -34,7 +34,7 @@
       <div class="number-price">
         数量：{{item.order.commodityList[0].number}}
         <br>
-        总价：￥{{item.order.commodityList[0].transactionValue}}
+        总价：￥{{item.order.commodityList[0].transactionValue * item.order.commodityList[0].number}}
       </div>
       <div class="buyer">
         买家账号：{{item.order.userInfo.id}}
