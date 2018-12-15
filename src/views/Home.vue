@@ -185,6 +185,7 @@ export default {
     },
     search(e) {
       this.searchKey = e;
+      this.page = 1
     },
     packAll() {
       this.categoryName = "";

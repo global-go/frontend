@@ -84,11 +84,11 @@ export default {
       if (this.searchKey === "") {
         return this.adminCommodities.list;
       } 
-      // else {
-      //   return this.adminCommodities.filter(v => {
-      //     return v.name.indexOf(this.searchKey) !== -1;
-      //   });
-      // }
+      else {
+        return this.adminCommodities.list.filter(v => {
+          return v.name.indexOf(this.searchKey) !== -1;
+        });
+      }
     },
     pageCount() {
       return Math.ceil(this.searchDataWrapper.length / 5);
@@ -146,6 +146,7 @@ export default {
     },
     search(e) {
       this.searchKey = e;
+      this.page = 1
     }
   }
 };

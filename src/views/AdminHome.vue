@@ -45,7 +45,7 @@
       <div class="btn1">
         <!-- TODO:修改padding -->
         <div v-if="item.order.state === 'pending'" class="click-btn" @click="changeState(index)">我已发货</div>
-        <div v-else class="click-btn">已完成订单</div>
+        <div v-else class="click-btn" @click="alertMessage">已完成订单</div>
         <div class="click-btn" @click="checkOrder(item)">订单详情</div>
       </div>
     </div>
@@ -98,7 +98,7 @@ export default {
         return this.orderWithCommodity;
       } else {
         return this.orderWithCommodity.filter(v => {
-          return v.order.id.indexOf(this.searchKey) !== -1;
+          return v.order.id === parseInt(this.searchKey) || v.commodity.name.includes(this.searchKey);
         });
       }
     },
@@ -144,6 +144,7 @@ export default {
     },
     search(e) {
       this.searchKey = e;
+      this.page = 1
     },
     checkOrder(item) {
       this.detail = true;
@@ -153,18 +154,21 @@ export default {
       this.detail = false;
     },
     async changeState(index) {
-      let result = await this.axios.put(urls.changeOrderState(this.adminOrders.list[index].id), {
+      let result = await this.axios.put(urls.changeOrderState(this.thisPage[index].order.id), {
         token: this.userInfo.token,
         state: 'finished'
       })
       if (result.data.code === 0) {
         this.$store.commit('changeOrderState', {
-          index: index,
+          index: index + (this.page - 1) * 5,
           value: 'finished'
         })
       } else {
         alert('修改状态失败')
       }
+    },
+    alertMessage() {
+      window.alert('您不可以修改已完成订单的状态。')
     }
   }
 };

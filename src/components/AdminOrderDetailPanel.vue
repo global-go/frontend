@@ -18,7 +18,7 @@
       <div class="box">
         <div class="text">商品编号：{{item.commodityList[0].commodityID}}</div>
         <div class="text">商品数量：{{item.commodityList[0].number}}</div>
-        <div class="text">销售总价格：￥ {{item.commodityList[0].transactionValue}}</div>
+        <div class="text">销售总价格：￥ {{item.commodityList[0].transactionValue * item.commodityList[0].number}}</div>
       </div>
     </div>
   </div>

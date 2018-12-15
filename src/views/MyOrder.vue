@@ -30,11 +30,11 @@
       <img class="com-photo" :src="item.commodities[0].images[0].url">
       <div class="com-name">{{item.commodities[0].name}}</div>
       <div class="com-price">单价：
-        ￥{{item.commodities[0].price}}
+        ￥{{item.commodities[0].transactionValue}}
       </div>
       <div class="number-price">数量: {{item.commodities[0].number}}</div>
       <div class="buyer">总价：
-        ￥{{item.commodities[0].transactionValue}}
+        ￥{{item.commodities[0].transactionValue * item.commodities[0].number}}
       </div>
 
       <div class="btn1">

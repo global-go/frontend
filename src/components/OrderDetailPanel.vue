@@ -18,7 +18,7 @@
         <div class="text">商品售价：￥ {{item.commodities[0].price}}</div>
       </div>
       <div class="box">
-        <div class="text">销售总价格：￥ {{item.commodities[0].transactionValue}}</div>
+        <div class="text">销售总价格：￥ {{item.commodities[0].transactionValue * item.commodities[0].number}}</div>
       </div>
     </div>
   </div>
